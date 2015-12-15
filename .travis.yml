@@ -8,6 +8,8 @@ script:
 after_success:
   - npm run coveralls
 sudo: false
+notifications:
+  slack: andela:aI4MJFKbo4x5e7c9iHedhsUv
 deploy:
   provider: heroku
   api_key:
@@ -18,5 +20,3 @@ deploy:
     branch: dev
 after_deploy:
   - "heroku ps:scale web=1 --app dms-rest-api"
-notifications:
-  slack: andela:aI4MJFKbo4x5e7c9iHedhsUv
