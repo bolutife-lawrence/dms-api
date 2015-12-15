@@ -1,15 +1,21 @@
 language: node_js
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
 node_js:
   - "5.0"
 install:
-  - npm install -g node-gyp
   - npm install
-  - npm rebuild
 script:
   - npm test
 after_success:
   - npm run coveralls
-sudo: true
+sudo: false
 notifications:
   slack: andela:aI4MJFKbo4x5e7c9iHedhsUv
 deploy:
