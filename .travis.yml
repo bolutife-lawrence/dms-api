@@ -2,7 +2,6 @@ language: node_js
 node_js:
   - stable
   - "5.0"
-  - "4.2"
 install:
   - npm install
 script:
@@ -20,3 +19,5 @@ deploy:
     branch: dev
 after_deploy:
   - "heroku ps:scale web=1 --app dms-rest-api"
+notifications:
+  slack: andela:aI4MJFKbo4x5e7c9iHedhsUv
