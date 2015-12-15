@@ -1,0 +1,108 @@
+##################################################### Seeders #####################################################
+
+## Create multiple users
+gen_user:
+  lastname: Hanson
+  firstname: Helen
+  username: Hansonn4
+  email: Hanhel@gmail.com
+  password: lifeisgood
+  role: general
+
+admin_user:
+  lastname: Steven
+  firstname: Craig
+  username: steve45
+  email: steven_c@gmail.com
+  password: santasecret
+  role: admin
+
+super_user:
+  create:
+    lastname: Lawrence
+    firstname: Douglas
+    username: Lawrenzo
+    email: lawrence.mcbhee@gmail.com
+    password: isomuchrock
+    role: superadmin
+  update:
+    lastname: Lawren
+    firstname: Douges
+    username: Lawrenna
+    email: lawrence@gmail.com
+    password: isomuchrockka
+    role: superadmin
+  login:
+    username: Lawrenzo
+    password: isomuchrock
+  invalidlogin:
+    username: Lawrena
+    password: isomuchrock
+  invalidlogin2:
+    username: Lawrenzo
+    password: irock
+  invalidlogin3:
+    username:
+    password:
+
+test_user:
+  create:
+    lastname: Jeremy
+    firstname: Forbes
+    username: Jerome_
+    email: jeremy_forbes@gmail.com
+    password: ilovemylife
+    role: guest
+  invalid_user_data:
+    lastname: ''
+    firstname: ''
+    username: ''
+    email: ''
+    password: ''
+    role: ''
+  update:
+    lastname: Jeremyya
+    firstname: Forbeseey
+    username: Jerome_78
+    email: jeremy@gmail.com
+    password: ilovemylifecute
+    role: guest
+  login:
+    username: Jerome_
+    password: ilovemylife
+
+## Create multiple roles
+roles: !!omap ## An array of roles.
+  - role1:
+      title: superadmin
+  - role2:
+      title: admin
+  - role3:
+      title: general
+  - role4:
+      title: guest
+
+## Create multiple docs
+documents: !!omap ## An array of documents.
+
+  - doc1:
+      title: Test Doc 1
+      content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
+      roles: admin,guest
+      username: Jerome_
+  - doc2:
+      title: Test Doc 2
+      content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
+      roles: user
+      username: steve45
+  - doc3:
+      title: Test Doc 3
+      content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
+      roles: guest
+      username: Hansonn4
+
+doc:
+  create:
+  update:
+
+##################################################### Seeders #####################################################
