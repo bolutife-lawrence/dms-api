@@ -2,12 +2,12 @@ language: node_js
 node_js:
   - "5.0"
 install:
-  - npm install
+  - sudo npm install
 script:
   - npm test
 after_success:
   - npm run coveralls
-sudo: false
+sudo: true
 notifications:
   slack: andela:aI4MJFKbo4x5e7c9iHedhsUv
 deploy:
