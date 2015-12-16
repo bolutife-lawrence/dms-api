@@ -1,38 +1,41 @@
 var UserHelper = (models, _h, co) => {
   return (() => {
-    var createUser = (username, lastname, firstname, role, email, password, cb) => {
-      var hashSalt = {};
-      hashSalt = _h.hash(password);
-      co(function* () {
-        _role = yield models.Role.findOne({
-          'title': role
+    var createUser =
+      (username, lastname, firstname, role, email, password, cb) => {
+        var hashSalt = {};
+        hashSalt = _h.hash(password);
+        co(function* () {
+          var _role = yield models.Role.findOne({
+            'title': role
+          });
+          if (!_role) return cb(`${role} role does not exist!`);
+          var user = yield models.User.findOne({
+            $or: [{
+              'username': username
+            }, {
+              'email': email
+            }]
+          });
+          if (user) return cb('User Already exists!');
+          var newUser = new models.User({
+            username: username,
+            name: {
+              first: firstname,
+              last: lastname
+            },
+            email: email,
+            hashedPass: hashSalt.hashedPass,
+            saltPass: hashSalt.salt,
+            role: _role
+          });
+          var savedUser = yield newUser.save();
+          delete savedUser.hashedPass;
+          delete savedUser.saltPass;
+          return savedUser ?
+            cb(null, savedUser) :
+            cb('An error occured while creating the user');
         });
-        if (!_role) return cb(`${role} role does not exist!`);
-        var user = yield models.User.findOne({
-          $or: [{
-            'username': username
-          }, {
-            'email': email
-          }]
-        });
-        if (user) return cb('User Already exists!');
-        var newUser = new models.User({
-          username: username,
-          name: {
-            first: firstname,
-            last: lastname
-          },
-          email: email,
-          hashedPass: hashSalt.hashedPass,
-          saltPass: hashSalt.salt,
-          role: _role
-        });
-        var savedUser = yield newUser.save();
-        delete savedUser.hashedPass;
-        delete savedUser.saltPass;
-        return savedUser ? cb(null, savedUser) : cb('An error occured while creating the user');
-      });
-    };
+      };
 
     var getUsers = (limit, page, cb) => {
       var options = {
@@ -50,7 +53,8 @@ var UserHelper = (models, _h, co) => {
       };
       models.User.paginate({}, options, (err, result) => {
         if (err) return cb(err);
-        return result.length !== 0 ? cb(null, result) : cb('No user has been created yet.');
+        return result.length !== 0 ?
+          cb(null, result) : cb('No user has been created yet.');
       });
     };
 
@@ -105,7 +109,8 @@ var UserHelper = (models, _h, co) => {
           delete userDetails.password;
           delete userDetails.lastname;
           delete userDetails.firstname;
-          var updatedUser = yield models.User.findOneAndUpdate(query, userDetails);
+          var updatedUser =
+            yield models.User.findOneAndUpdate(query, userDetails);
           return !updatedUser ? cb('User does not exist!') : cb();
         } catch (e) {
           cb(e);
@@ -150,7 +155,8 @@ var UserHelper = (models, _h, co) => {
           };
         models.Document.paginate(query2, options, function (err, result) {
           if (err) return cb(err);
-          return result.length !== 0 ? cb(null, result) : cb('No user has been created yet.');
+          return result.length !== 0 ?
+            cb(null, result) : cb('No user has been created yet.');
         });
       });
     };

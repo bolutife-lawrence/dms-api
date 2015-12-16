@@ -3,9 +3,9 @@ var not_found = (api, models) => {
     after((done) => {
       // Rid database of all test data(seeds) before testing begins.
       try {
-        models.Document.remove({}, (err) => {
-          models.User.remove({}, (err) => {
-            models.Role.remove({}, (err) => {
+        models.Document.remove({}, () => {
+          models.User.remove({}, () => {
+            models.Role.remove({}, () => {
               console.log('Unseed completed!!!');
               done();
             });
@@ -16,7 +16,8 @@ var not_found = (api, models) => {
       }
     });
 
-    it('returns 404 status code if requested route is not found: POST', (done) => {
+    var msg = 'returns 404 status code if requested route is not found: POST';
+    it(msg, (done) => {
       api
         .post('/DMS/api/not_found')
         .set('Accept', 'application/x-www-form-urlencoded')
@@ -24,7 +25,8 @@ var not_found = (api, models) => {
         .expect(404, done);
     });
 
-    it('returns 404 status code if requested route is not found: GET', (done) => {
+    var msg2 = 'returns 404 status code if requested route is not found: GET';
+    it(msg2, (done) => {
       api
         .get('/DMS/api/not_found')
         .set('Accept', 'application/json')
@@ -32,7 +34,8 @@ var not_found = (api, models) => {
         .expect(404, done);
     });
 
-    it('returns 404 status code if requested route is not found: PUT', (done) => {
+    var msg3 = 'returns 404 status code if requested route is not found: PUT';
+    it(msg3, (done) => {
       api
         .put('/DMS/api/not_found')
         .set('Accept', 'application/x-www-form-urlencoded')
@@ -40,7 +43,9 @@ var not_found = (api, models) => {
         .expect(404, done);
     });
 
-    it('returns 404 status code if requested route is not found: DELETE', (done) => {
+    var msg4 = 'returns 404 status code if' +
+    'requested route is not found: DELETE';
+    it(msg4, (done) => {
       api
         .get('/DMS/api/not_found')
         .set('Accept', 'application/json')

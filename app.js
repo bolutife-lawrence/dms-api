@@ -7,11 +7,13 @@ module.exports = (function () {
     bodyParser = require('body-parser'),
     expressValidator = require('express-validator'),
     methodOverride = require('method-override'),
-    mongoConnect = require('./config/db_connect')(),
-    jwt = require('jsonwebtoken'),
+    mongoConnect = require('./config/db_connect'),
     router = require('./routes'),
     errorHandler = require('./middlewares/errorHandler'),
     customValidators = require('./helpers/customValidators');
+
+// Connect to mongodb
+mongoConnect();
 
   // App configurations
   app.locals.title = 'DMS API';

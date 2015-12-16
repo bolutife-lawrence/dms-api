@@ -1,5 +1,4 @@
-var models = require('../models'),
-  _validate = require('../helpers/expressValidators'),
+var _validate = require('../helpers/expressValidators'),
   _h = require('../helpers/helperFunctions'),
   UserHelper = require('./ControllerHelpers').UserHelper;
 
@@ -7,9 +6,23 @@ module.exports = (() => {
   var createUser = (req, res) => {
     _validate.validateUserDetails(req, (err) => {
       if (err) return res.status(400).json(err);
-      var args = [req.body.username, req.body.lastname, req.body.firstname, req.body.role, req.body.email, req.body.password];
+      var args = [
+        req.body.username,
+        req.body.lastname,
+        req.body.firstname,
+        req.body.role,
+        req.body.email,
+        req.body.password
+      ];
       UserHelper.createUser(...args, (err, user) => {
-        return _h.feedback(err, 'user', user, 'User successfully created!', res);
+        var args = [
+          err,
+          'user',
+          user,
+          'User successfully created!',
+          res
+        ];
+        return _h.feedback(...args);
       });
     });
   };
@@ -17,7 +30,10 @@ module.exports = (() => {
   var getUsers = (req, res) => {
     _validate.validatePaginationParams(req, (err) => {
       if (err) return res.status(400).json(err);
-      var args = [parseInt(req.query.limit) || 20, parseInt(req.query.page) || 1];
+      var args = [
+        parseInt(req.query.limit) || 20,
+        parseInt(req.query.page) || 1
+      ];
       UserHelper.getUsers(...args, (err, users) => {
         return _h.feedback(err, 'users', users, null, res);
       });
@@ -34,12 +50,19 @@ module.exports = (() => {
   };
 
   var updateUser = (req, res) => {
-    _validate.validateId(req, (err) =>{
+    _validate.validateId(req, (err) => {
       if (err) return res.status(400).json(err);
       _validate.validateUserDetails(req, (err) => {
         if (err) return res.status(400).json(err);
         UserHelper.updateUser(req.params.id, req.body, (err) => {
-          return _h.feedback(err, null, null, 'User successfully updated!', res);
+          var args = [
+            err,
+            null,
+            null,
+            'User successfully updated!',
+            res
+          ];
+          return _h.feedback(...args);
         });
       });
     });
@@ -59,7 +82,10 @@ module.exports = (() => {
       if (err) return res.status(400).json(err);
       _validate.validatePaginationParams(req, (err) => {
         if (err) return res.status(400).json(err);
-        var args = [req.params.id, parseInt(req.query.page) || 1, parseInt(req.query.limit) || 20];
+        var args = [
+          req.params.id, parseInt(req.query.page) || 1,
+          parseInt(req.query.limit) || 20
+        ];
         UserHelper.getDocsByUser(...args, function (err, docs) {
           return _h.feedback(err, 'docs', docs, null, res);
         });
