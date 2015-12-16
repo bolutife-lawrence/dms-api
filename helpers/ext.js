@@ -169,14 +169,14 @@ module.exports = (function () {
 		, "zip"   : "application/zip"
 	}
 	return {
-		getExt: function (path) {
+		getExt: (path) => {
 			var i = path.lastIndexOf('.');
 			return (i < 0) ? undefined : path.substr(++i);
 		},
-    checkExt: function (ext) {
+    checkExt: (ext) => {
       return extTypes.hasOwnProperty(ext);
     },
-		getContentType: function (ext) {
+		getContentType: (ext) => {
 			return extTypes[ext.toLowerCase()];
 		}
 	};

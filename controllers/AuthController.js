@@ -28,7 +28,7 @@ module.exports = (() => {
             var options = {
               expiresIn: '24h' // expires in 24 hours from creation.
             };
-            var token = jwt.sign(user, secretKey.key, options, (token) => {
+            jwt.sign(user, secretKey.key, options, (token) => {
               // return the information including token as JSON
               res.json({
                 success: true,

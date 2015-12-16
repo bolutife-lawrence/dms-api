@@ -15,13 +15,7 @@ module.exports = (() => {
         req.body.password
       ];
       UserHelper.createUser(...args, (err, user) => {
-        var args = [
-          err,
-          'user',
-          user,
-          'User successfully created!',
-          res
-        ];
+        var args = [err, 'user', user, 'User successfully created!', res];
         return _h.feedback(...args);
       });
     });
@@ -55,13 +49,7 @@ module.exports = (() => {
       _validate.validateUserDetails(req, (err) => {
         if (err) return res.status(400).json(err);
         UserHelper.updateUser(req.params.id, req.body, (err) => {
-          var args = [
-            err,
-            null,
-            null,
-            'User successfully updated!',
-            res
-          ];
+          var args = [err,null,null,'User successfully updated!',res];
           return _h.feedback(...args);
         });
       });

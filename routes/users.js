@@ -3,7 +3,8 @@ var express = require('express'),
   auth = require('../middlewares/auth'),
   controllers = require('../controllers');
 
-// Route to create a new user. This also checks if a user has the right privileges to
+// Route to create a new user.
+// This also checks if a user has the right privileges to
 // create an admin or superadmin user.
 router.route('/').post(auth.checkRole, controllers.UserController.createUser);
 
@@ -15,7 +16,8 @@ router.route('/:id')
   .get(controllers.UserController.getUser);
 router.route('/:id/documents').get(controllers.UserController.getDocsByUser);
 
-// This accertains that a user has certain rights to access confidential resources.
+// This accertains that a user has certain rights
+// to access confidential resources.
 router.all('/*', auth.isAdmin);
 router.route('/').get(controllers.UserController.getUsers);
 router.route('/:id')

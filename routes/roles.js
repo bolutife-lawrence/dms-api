@@ -8,7 +8,8 @@ router.route('/').get(controllers.RoleController.getRoles);
 
 // Protect all confidential routes - Authentication  and Authorization.
 // This accertains that a user is authenticated to access certain routes.
-// And also accertains that a user has certain permissions access confidential routes.
+// And also accertains that a user has certain permissions access
+// confidential routes.
 router.all('*', auth.isSuperAdmin);
 router.route('/').post(controllers.RoleController.createRole);
 router.route('/:id')

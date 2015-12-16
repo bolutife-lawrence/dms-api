@@ -9,8 +9,7 @@ var
   not_found = require('./404'),
   models = require('../../models'),
   ControllerHelpers = require('../../controllers/ControllerHelpers'),
-  api = request(app),
-  co = require('co');
+  api = request(app);
 
 
 // Run tests for the api's root '/' path.

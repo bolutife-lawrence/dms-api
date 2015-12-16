@@ -30,11 +30,15 @@ var userResource = (api, expect, fixtures) => {
           .expect(200)
           .end((err, res) => {
             if (err) return done(err);
-            console.log(res.body.errors ? res.body.errors : 'Params validation Passed!');
+            var errors = res.body.errors;
+            console.log(res.body.errors ? errors : 'Params validation Passed!');
             expect(res.body).to.be.an('object');
             expect(res.body.user).to.be.an('object');
             expect(res.body).to.only.have.keys(['success', 'message', 'user']);
-            expect(res.body.user).to.only.have.keys(['__v', '_id', 'username', 'name', 'email', 'role', 'hashedPass', 'saltPass', 'createdAt', 'updatedAt']);
+            expect(res.body.user).to.only.have.keys([
+              '__v', '_id', 'username', 'name', 'email',
+              'role', 'hashedPass', 'saltPass', 'createdAt', 'updatedAt'
+            ]);
             expect(res.body.user.name).to.only.have.keys(['first', 'last']);
             expect(res.body.success).to.be.ok();
             expect(res.body.message).to.be('User successfully created!');
@@ -45,7 +49,8 @@ var userResource = (api, expect, fixtures) => {
           });
       });
 
-      it('POST: should throw an error if the user to be created exists.', (done) => {
+      var msg = 'POST: should throw an error if the user to be created exists.';
+      it(msg, (done) => {
         api
           .post('/DMS/api/users')
           .set('Accept', 'application/x-www-form-urlencoded')
@@ -61,7 +66,9 @@ var userResource = (api, expect, fixtures) => {
           });
       });
 
-      it('POST: should throw an error if role specified does not exist.', (done) => {
+      var msg2 = 'POST: should throw an error' +
+        ' if role specified does not exist.';
+      it(msg2, (done) => {
         fixtures.test_user.create.role = 'storekeeper';
         api
           .post('/DMS/api/users')
@@ -87,7 +94,7 @@ var userResource = (api, expect, fixtures) => {
           .expect(400, done);
       });
 
-      it('POST: A user is authenticated after creation before performing vital operations (update, read, and delete).', (done) => {
+      it('POST: ', (done) => {
         api
           .post('/DMS/api/auth/authenticate')
           .set('Accept', 'application/x-www-form-urlencoded')
@@ -96,12 +103,15 @@ var userResource = (api, expect, fixtures) => {
           .expect(200)
           .end((err, res) => {
             if (err) return done(err);
-            console.log(res.body.errors ? res.body.errors : 'Params validation Passed!');
+            var result = res.body.errors ?
+              res.body.errors : 'Params validation Passed!';
+            console.log(result);
             expect(res.body).to.have.property('success');
             expect(res.body).to.have.property('message');
             expect(res.body).to.have.property('token');
             expect(res.body.success).to.be.ok();
-            expect(res.body.message).to.be('Authentication successful. Enjoy your token!');
+            var msg = 'Authentication successful. Enjoy your token!';
+            expect(res.body.message).to.be(msg);
             expect(res.body.token).to.be.ok();
             userToken = res.body.token;
             done();
@@ -135,7 +145,9 @@ var userResource = (api, expect, fixtures) => {
           .expect(200)
           .end((err, res) => {
             if (err) return done(err);
-            console.log(res.body.errors ? res.body.errors : 'Params validation Passed!');
+            var result = res.body.errors ?
+              res.body.errors : 'Params validation Passed!';
+            console.log(result);
             expect(res.body).to.be.an('object');
             expect(res.body).to.only.have.keys(['success', 'message']);
             expect(res.body.success).to.be.ok();
@@ -153,15 +165,19 @@ var userResource = (api, expect, fixtures) => {
           .expect(200)
           .end((err, res) => {
             if (err) return done(err);
-            console.log(res.body.errors ? res.body.errors : 'Params validation Passed!');
+            var result = res.body.errors ?
+              res.body.errors : 'Params validation Passed!';
+            console.log(result);
             expect(res.body).to.only.have.keys(['success', 'user']);
             expect(res.body.success).to.be.ok();
-            expect(res.body.user).to.only.have.keys(['_id', 'username', 'email', 'role', 'name']);
+            var keys = ['_id', 'username', 'email', 'role', 'name'];
+            expect(res.body.user).to.only.have.keys(keys);
             done();
           });
       });
 
-      it('GET: should return 404 if userId is invalid or not provided.', (done) => {
+      var msg3 = 'GET: should return 404 if userId is invalid or not provided.';
+      it(msg3, (done) => {
         api
           .get('/DMS/api/users/' + userId.slice(-4))
           .set('Accept', 'application/json')
@@ -170,7 +186,8 @@ var userResource = (api, expect, fixtures) => {
           .expect(400, done);
       });
 
-      it('GET: An Admin or Super Admin should be able to retrieve all users', (done) => {
+      var msg4 = 'GET: authorized users should be able to retrieve all users';
+      it(msg4, (done) => {
         api
           .get('/DMS/api/users/')
           .set('Accept', 'application/json')
@@ -184,7 +201,9 @@ var userResource = (api, expect, fixtures) => {
           });
       });
 
-      it('GET: should apply pagination to retrieved users with defualt limit of 20 per page.', (done) => {
+      var msg5 = 'GET: should apply pagination to retrieved' +
+        ' users with defualt limit of 20 per page.';
+      it(msg5, (done) => {
         api
           .get('/DMS/api/users/')
           .set('Accept', 'application/json')
@@ -233,7 +252,8 @@ var userResource = (api, expect, fixtures) => {
 
       it('DELETE: should validate userId before deleting a user', (done) => {
         api
-          .delete('/DMS/api/users/' + userId.slice(-4)) // userId for a general or admin user. Deleted by a superadmin user.
+        // userId for a general or admin user. Deleted by a superadmin user.
+          .delete('/DMS/api/users/' + userId.slice(-4))
           .set('Accept', 'application/json')
           .set('x-access-token', superAdminToken)
           .expect('Content-Type', /json/)
@@ -241,21 +261,29 @@ var userResource = (api, expect, fixtures) => {
       });
 
       /**
-       * An existing user can only be deleted by a superior/authorized user such as the superadmin or admin.
+       * An existing user can only be deleted by a
+       * superior/authorized user such as the superadmin or admin.
        * Instance : A general user can be deleted by an admin user.
-       * 						An admin user can be deleted by a superadmin user.
+       * 						An admin user can be deleted by a
+       * 						superadmin user.
        * 						A superadmin can be deleted by noone.
        */
-      it('DELETE: An existing user can be deleted by an authenticated and authorized(superadmin or admin) user.', (done) => {
+      var msg6 = 'DELETE: An existing user can be' +
+        ' deleted by an authenticated and' +
+        ' authorized(superadmin or admin) user.';
+      it(msg6, (done) => {
         api
-          .delete('/DMS/api/users/' + userId) // userId for a general or admin user. Deleted by a superadmin user.
+        // userId for a general or admin user. Deleted by a superadmin user.
+          .delete('/DMS/api/users/' + userId)
           .set('Accept', 'application/json')
           .set('x-access-token', superAdminToken)
           .expect('Content-Type', /json/)
           .expect(200)
           .end((err, res) => {
             if (err) return done(err);
-            console.log(res.body.errors ? res.body.errors : 'Params validation Passed!');
+            var result = res.body.errors ?
+              res.body.errors : 'Params validation Passed!';
+            console.log(result);
             expect(res.body).to.have.property('success');
             expect(res.body).to.have.property('message');
             expect(res.body.message).to.be('User deleted successfully!');

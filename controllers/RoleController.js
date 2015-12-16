@@ -1,5 +1,4 @@
-var models = require('../models'),
-  _validate = require('../helpers/expressValidators'),
+var _validate = require('../helpers/expressValidators'),
   _h = require('../helpers/helperFunctions'),
   RoleHelper = require('./ControllerHelpers').RoleHelper;
 
@@ -8,7 +7,8 @@ module.exports = (() => {
     _validate.validateRoleTitle(req, (err) => {
       if (err) return res.status(400).json(err);
       RoleHelper.createRole(req.body.title, (err, role) => {
-        return _h.feedback(err, 'role', role, 'Role successfully created!', res);
+        var args = [err, 'role', role, 'Role successfully created!', res];
+        return _h.feedback(...args);
       });
     });
   };
@@ -25,7 +25,10 @@ module.exports = (() => {
   var getRoles = (req, res) => {
     _validate.validatePaginationParams(req, (err) => {
       if (err) return res.status(400).json(err);
-      var args = [parseInt(req.query.limit) || 20, parseInt(req.query.page) || 1];
+      var args = [
+        parseInt(req.query.limit) || 20,
+        parseInt(req.query.page) || 1
+      ];
       RoleHelper.getRoles(...args, (err, roles) => {
         return _h.feedback(err, 'roles', roles, null, res);
       });
@@ -36,8 +39,10 @@ module.exports = (() => {
     _validate.validateId(req, (err) => {
       if (err) return res.status(400).json(err);
       _validate.validateRoleTitle(req, (err) => {
+        if (err) return res.status(400).json(err);
         RoleHelper.updateRole(req.params.id, req.body.title, (err) => {
-          return _h.feedback(err, null, null, 'Role successfully updated!', res);
+          var args = [err, null, null, 'Role successfully updated!', res];
+          return _h.feedback(...args);
         });
       });
     });

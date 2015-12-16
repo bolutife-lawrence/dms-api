@@ -1,12 +1,12 @@
 var jwt = require('jsonwebtoken'),
-  secretKey = require('../config/secret'),
-  models = require('../models'),
-  co = require('co');
+  secretKey = require('../config/secret');
 
 var auth = () => {
   var isAuthenticated = (req, res, next) => {
     // check header or url parameters or post parameters for token
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    var token = req.body.token ||
+      req.query.token ||
+      req.headers['x-access-token'];
     // decode token
     if (token) {
       // verifies secret and checks exp
@@ -35,10 +35,11 @@ var auth = () => {
 
   var isAdmin = (req, res, next) => {
     var userRole = req.user.role[0].title.toLowerCase();
-    return userRole === 'admin' || 'superadmin' ? next() : res.status(401).json({
-      success: false,
-      message: 'Restricted resource. Access Denied!'
-    }), false;
+    return userRole === 'admin' || 'superadmin' ? next() :
+      res.status(401).json({
+        success: false,
+        message: 'Restricted resource. Access Denied!'
+      }), false;
   };
 
   var isSuperAdmin = (req, res, next) => {
@@ -52,7 +53,8 @@ var auth = () => {
   var checkRole = (req, res, next) => {
     if (!('role' in req.body)) next();
     var _role = req.body.role.toLowerCase();
-    return _role === 'admin' || _role === 'superadmin' ? isAuthenticated(req, res, next) || isSuperAdmin(req, res, next) : next();
+    return _role === 'admin' || _role === 'superadmin' ?
+      isAuthenticated(req, res, next) || isSuperAdmin(req, res, next) : next();
   };
 
   return {

@@ -14,8 +14,11 @@ module.exports = (() => {
 
   var validateAuthParams = (req, cb) => {
     // validate request body fields.
-    if (req.body.hasOwnProperty('username')) req.checkBody('username', 'username or email is required to gain access').notEmpty();
-    if (req.body.hasOwnProperty('email')) req.checkBody('email', 'Invalid Email. Please provide a valid email.')
+    if (req.body.hasOwnProperty('username'))
+      req.checkBody('username', 'username or email is required to gain access')
+      .notEmpty();
+    if (req.body.hasOwnProperty('email'))
+      req.checkBody('email', 'Invalid Email. Please provide a valid email.')
       .notEmpty().withMessage('username or email is required to gain access')
       .isEmail();
     req.checkBody('password', 'password field cannot be empty.').notEmpty();
@@ -48,8 +51,10 @@ module.exports = (() => {
   }
 
   function validatePaginationParams(req, cb) {
-    if (req.query.hasOwnProperty('page')) req.checkQuery('page', 'Page number must be an interger').isInt();
-    if (req.query.hasOwnProperty('limit')) req.checkQuery('limit', 'limit must be an interger').isInt();
+    if (req.query.hasOwnProperty('page'))
+      req.checkQuery('page', 'Page number must be an interger').isInt();
+    if (req.query.hasOwnProperty('limit'))
+      req.checkQuery('limit', 'limit must be an interger').isInt();
     return feedback(req, cb);
   }
 
@@ -61,14 +66,13 @@ module.exports = (() => {
   }
 
   function validateDocDetails(req, cb) {
-    req.checkBody('docName', 'Document name is required')
-      .isDoc().withMessage('Invalid Document name or extension')
-      .notEmpty();
     req.checkBody('title', 'Document title is required')
-      .len(3, 50).withMessage('Document title can only be between 3 to 50 characters.')
+      .len(3, 50)
+      .withMessage('Document title can only be between 3 to 50 characters.')
       .notEmpty();
     req.checkBody('content', 'Document content is required')
-      .len(0, 2000).withMessage('Document content can only contain 1000 characters.')
+      .len(0, 2000)
+      .withMessage('Document content can only contain 1000 characters.')
       .notEmpty();
     req.checkBody('roles', 'Atleast a role must be specified.')
       .notEmpty();

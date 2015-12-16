@@ -11,12 +11,14 @@ var DocHelper = (models, _h, co) => {
         }
       });
       if (!user) return cb(`${username} is not a user!`);
-      if (_roles.length === 0) return cb('Role(s) specified could not be found.');
+      if (_roles.length === 0)
+        return cb('Role(s) specified could not be found.');
       var findDocMatch = yield models.Document.find({
         'userId': user._id,
         'title': title
       });
-      if (findDocMatch.length !== 0) return cb(`Document with title: ${title} has already been created by ${username}`);
+      if (findDocMatch.length !== 0)
+        return cb(`Document \'${title}\' already created by ${username}`);
       var newDoc = new models.Document({
         title: title,
         content: content,
@@ -24,7 +26,8 @@ var DocHelper = (models, _h, co) => {
         roles: _roles
       });
       var savedDocument = yield newDoc.save();
-      return savedDocument ? cb() : cb(`${docName} could not be created`);
+      return savedDocument ?
+        cb() : cb(`Document could not be created`);
     });
   };
 
@@ -46,7 +49,8 @@ var DocHelper = (models, _h, co) => {
     };
     models.Document.paginate({}, options, (err, docs) => {
       if (err) return cb(err);
-      return docs.length !== 0 ? cb(null, docs) : cb('No document has been created yet.');
+      return docs.length !== 0 ?
+        cb(null, docs) : cb('No document has been created yet.');
     });
   };
 
@@ -77,7 +81,8 @@ var DocHelper = (models, _h, co) => {
         user = yield models.User.findOne({
           'username': docDetails.username
         });
-      if (_roles.length === 0) return cb('Role(s) specified could not be found.');
+      if (_roles.length === 0)
+        return cb('Role(s) specified could not be found.');
       if (!user) return cb(`Invalid username: ${docDetails.username}`);
       docDetails.roles = _roles;
       docDetails.docType = _h.getDocType(docDetails.docName);
@@ -89,8 +94,11 @@ var DocHelper = (models, _h, co) => {
         }]
       };
       delete docDetails.username;
-      var updatedDoc = yield models.Document.findOneAndUpdate(query, docDetails);
-      return !updatedDoc ? cb('Permission denied. Document or Document owner was not found!') : cb();
+      var updatedDoc =
+        yield models.Document.findOneAndUpdate(query, docDetails);
+      return !updatedDoc ?
+        cb('Permission denied. Document or Document owner was not found!') :
+        cb();
     });
   };
 

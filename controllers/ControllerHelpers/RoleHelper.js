@@ -46,7 +46,8 @@ var RoleHelper = (models, _h, co) => {
       };
       models.Role.paginate({}, options, (err, roles) => {
         if (err) return cb(err);
-        return roles.length !== 0 ? cb(null, roles) : cb('No role has been created yet.');
+        return roles.length !== 0 ?
+          cb(null, roles) : cb('No role has been created yet.');
       });
     } catch (e) {
       cb(e);
@@ -69,7 +70,8 @@ var RoleHelper = (models, _h, co) => {
             '_id': roleId
           },
           _role = yield models.Role.findOne(query);
-        if (_role) return cb(`Role ${title} already exists.`);
+        if (_role)
+          return cb(`Role ${_role.title} already exists.`);
         var updateRole = yield models.Role.findOneAndUpdate(query2, role);
         return updateRole ? cb() : cb('Role could not be updated!');
       } catch (e) {
