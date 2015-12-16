@@ -17,6 +17,8 @@
     "$" : true,
     "jQuery" : true,
     "jasmine" : true,
+    "before": true,
+    "after" : true,
     "beforeEach" : true,
     "describe" : true,
     "expect" : true,
