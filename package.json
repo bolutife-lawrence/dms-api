@@ -8,6 +8,7 @@
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "start": "nodemon --harmony ./bin/www"
   },
+
   "keywords": [
     "documents",
     "users",
