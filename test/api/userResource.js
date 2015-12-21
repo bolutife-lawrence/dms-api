@@ -1,7 +1,5 @@
 var userResource = (api, expect, fixtures) => {
-
   describe('DMS API User Resource', () => {
-
     describe('CRUD operations', () => {
       var userId = {},
         userToken = '',
@@ -11,6 +9,7 @@ var userResource = (api, expect, fixtures) => {
         // Get Super Admin
         api
           .post('/DMS/api/auth/authenticate')
+          .set('Accept', 'application/x-www-form-urlencoded')
           .set('Accept', 'application/json')
           .send(fixtures.super_user.login)
           .expect('Content-Type', /json/)
@@ -21,32 +20,39 @@ var userResource = (api, expect, fixtures) => {
           });
       });
 
-      it('POST: should create a new user', (done) => {
-        api
-          .post('/DMS/api/users')
-          .set('Accept', 'application/x-www-form-urlencoded')
-          .send(fixtures.test_user.create)
-          .expect('Content-Type', /json/)
-          .expect(200)
-          .end((err, res) => {
-            if (err) return done(err);
-            var errors = res.body.errors;
-            console.log(res.body.errors ? errors : 'Params validation Passed!');
-            expect(res.body).to.be.an('object');
-            expect(res.body.user).to.be.an('object');
-            expect(res.body).to.only.have.keys(['success', 'message', 'user']);
-            expect(res.body.user).to.only.have.keys([
-              '__v', '_id', 'username', 'name', 'email',
-              'role', 'hashedPass', 'saltPass', 'createdAt', 'updatedAt'
-            ]);
-            expect(res.body.user.name).to.only.have.keys(['first', 'last']);
-            expect(res.body.success).to.be.ok();
-            expect(res.body.message).to.be('User successfully created!');
-            expect(res.body.user._id).to.be.ok();
-            expect(res.body.user._id).to.match(/^[0-9a-fA-F]{24}$/);
-            userId = res.body.user._id;
-            done();
+      fixtures.users.forEach((user) => {
+        for (var prop in user) {
+          it('POST: should create a new user', (done) => {
+            api
+              .post('/DMS/api/users')
+              .set('Accept', 'application/x-www-form-urlencoded')
+              .send(user[prop])
+              .expect('Content-Type', /json/)
+              .expect(200)
+              .end((err, res) => {
+                if (err) return done(err);
+                var errors = res.body.errors;
+                var result = res.body.errors ?
+                  errors : 'Params validation Passed!';
+                console.log(result);
+                expect(res.body).to.be.an('object');
+                expect(res.body.user).to.be.an('object');
+                var keys = ['success', 'message', 'user'];
+                expect(res.body).to.only.have.keys(keys);
+                expect(res.body.user).to.only.have.keys([
+                  '__v', '_id', 'username', 'name', 'email',
+                  'role', 'hashedPass', 'saltPass', 'createdAt', 'updatedAt'
+                ]);
+                expect(res.body.user.name).to.only.have.keys(['first', 'last']);
+                expect(res.body.success).to.be.ok();
+                expect(res.body.message).to.be('User successfully created!');
+                expect(res.body.user._id).to.be.ok();
+                expect(res.body.user._id).to.match(/^[0-9a-fA-F]{24}$/);
+                userId = res.body.user._id;
+                done();
+              });
           });
+        }
       });
 
       var msg = 'POST: should throw an error if the user to be created exists.';
@@ -54,7 +60,7 @@ var userResource = (api, expect, fixtures) => {
         api
           .post('/DMS/api/users')
           .set('Accept', 'application/x-www-form-urlencoded')
-          .send(fixtures.test_user.create)
+          .send(fixtures.users[1].guest_user)
           .expect('Content-Type', /json/)
           .expect(400)
           .end((err, res) => {
@@ -69,11 +75,11 @@ var userResource = (api, expect, fixtures) => {
       var msg2 = 'POST: should throw an error' +
         ' if role specified does not exist.';
       it(msg2, (done) => {
-        fixtures.test_user.create.role = 'storekeeper';
+        fixtures.users[1].guest_user.role = 'storekeeper';
         api
           .post('/DMS/api/users')
           .set('Accept', 'application/x-www-form-urlencoded')
-          .send(fixtures.test_user.create)
+          .send(fixtures.users[1].guest_user)
           .expect('Content-Type', /json/)
           .expect(400)
           .end((err, res) => {
@@ -89,16 +95,16 @@ var userResource = (api, expect, fixtures) => {
         api
           .post('/DMS/api/users')
           .set('Accept', 'application/x-www-form-urlencoded')
-          .send(fixtures.test_user.invalid_user_data)
+          .send(fixtures.guest_user.invalid_user_data)
           .expect('Content-Type', /json/)
           .expect(400, done);
       });
 
-      it('POST: ', (done) => {
+      it('POST: should authenticate a user', (done) => {
         api
           .post('/DMS/api/auth/authenticate')
           .set('Accept', 'application/x-www-form-urlencoded')
-          .send(fixtures.test_user.login)
+          .send(fixtures.guest_user.login)
           .expect('Content-Type', /json/)
           .expect(200)
           .end((err, res) => {
@@ -130,7 +136,7 @@ var userResource = (api, expect, fixtures) => {
           .put('/DMS/api/users/' + userId)
           .set('Accept', 'application/x-www-form-urlencoded')
           .set('x-access-token', userToken)
-          .send(fixtures.test_user.invalid_user_data)
+          .send(fixtures.guest_user.invalid_user_data)
           .expect('Content-Type', /json/)
           .expect(400, done);
       });
@@ -140,7 +146,7 @@ var userResource = (api, expect, fixtures) => {
           .put('/DMS/api/users/' + userId)
           .set('Accept', 'application/x-www-form-urlencoded')
           .set('x-access-token', userToken)
-          .send(fixtures.test_user.update)
+          .send(fixtures.guest_user.update)
           .expect('Content-Type', /json/)
           .expect(200)
           .end((err, res) => {
@@ -214,7 +220,7 @@ var userResource = (api, expect, fixtures) => {
             var response = res.body;
             if (err) return done(err);
             expect(response.success).to.be.ok();
-            expect(response.users.total).to.be(2);
+            expect(response.users.total).to.be(3);
             expect(response.users.limit).to.be(20);
             expect(response.users.page).to.be(1);
             expect(response.users.pages).to.be(1);
@@ -233,7 +239,7 @@ var userResource = (api, expect, fixtures) => {
             var response = res.body;
             if (err) return done(err);
             expect(response.success).to.be.ok();
-            expect(response.users.total).to.be(2);
+            expect(response.users.total).to.be(3);
             expect(response.users.limit).to.be(5);
             expect(response.users.page).to.be(1);
             expect(response.users.pages).to.be(1);

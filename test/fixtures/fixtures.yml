@@ -1,13 +1,21 @@
 ##################################################### Seeders #####################################################
 
 ## Create multiple users
-gen_user:
-  lastname: Hanson
-  firstname: Helen
-  username: Hansonn4
-  email: Hanhel@gmail.com
-  password: lifeisgood
-  role: general
+users: !!omap ##An array of users
+  - gen_user:
+      lastname: Hanson
+      firstname: Helen
+      username: Hansonn4
+      email: Hanhel@gmail.com
+      password: lifeisgood
+      role: general
+  - guest_user:
+      lastname: Jeremy
+      firstname: Forbes
+      username: Jerome_
+      email: jeremy_forbes@gmail.com
+      password: ilovemylife
+      role: guest
 
 admin_user:
   lastname: Steven
@@ -45,14 +53,7 @@ super_user:
     username:
     password:
 
-test_user:
-  create:
-    lastname: Jeremy
-    firstname: Forbes
-    username: Jerome_
-    email: jeremy_forbes@gmail.com
-    password: ilovemylife
-    role: guest
+guest_user:
   invalid_user_data:
     lastname: ''
     firstname: ''
@@ -82,27 +83,55 @@ roles: !!omap ## An array of roles.
   - role4:
       title: guest
 
-## Create multiple docs
-documents: !!omap ## An array of documents.
+addRoles: !!omap ## create more roles for testing
+  - role1:
+      title: janitor
+  - role2:
+      title: manager
+  - role3:
+      title: hounder
 
+updateRoles:
+  - role1:
+      title: accountant
+  - role2:
+      title: seeders
+  - role3:
+      title: clerks
+
+## Create multiple doc
+documents: !!omap ##An array of documents
   - doc1:
       title: Test Doc 1
       content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
-      roles: admin,guest
-      username: Jerome_
+      roles: guest, general
+      username: Lawrenzo
   - doc2:
       title: Test Doc 2
       content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
-      roles: user
-      username: steve45
+      roles: guest
+      username: Lawrenzo
   - doc3:
       title: Test Doc 3
       content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
-      roles: guest
-      username: Hansonn4
+      roles: general
+      username: Lawrenzo
 
-doc:
-  create:
-  update:
+docsUpdate: !!omap ## An array of documents.
+  - doc1:
+      title: Doc 1
+      content: Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
+      roles: guest
+      username: Lawrenzo
+  - doc2:
+      title: Doc-2
+      content: Lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
+      roles: general,guest
+      username: Lawrenzo
+  - doc3:
+      title: Doc_3
+      content: Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+      roles: admin
+      username: Lawrenzo
 
 ##################################################### Seeders #####################################################

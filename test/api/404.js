@@ -7,6 +7,7 @@ var not_found = (api, models) => {
           models.User.remove({}, () => {
             models.Role.remove({}, () => {
               console.log('Unseed completed!!!');
+              console.log('Test last ran on ' + new Date());
               done();
             });
           });

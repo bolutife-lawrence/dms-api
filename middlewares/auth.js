@@ -1,5 +1,4 @@
-var jwt = require('jsonwebtoken'),
-  secretKey = require('../config/secret');
+var jwt = require('jsonwebtoken');
 
 var auth = () => {
   var isAuthenticated = (req, res, next) => {
@@ -10,7 +9,7 @@ var auth = () => {
     // decode token
     if (token) {
       // verifies secret and checks exp
-      jwt.verify(token, secretKey.key, function (err, decoded) {
+      jwt.verify(token, process.env.SECRET_KEY, function (err, decoded) {
         if (err) {
           return res.json({
             success: false,

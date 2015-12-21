@@ -12,6 +12,8 @@ module.exports = (function () {
     errorHandler = require('./middlewares/errorHandler'),
     customValidators = require('./helpers/customValidators');
 
+// load all environment variables in the .env file.
+require('dotenv').load();
 // Connect to mongodb
 mongoConnect();
 

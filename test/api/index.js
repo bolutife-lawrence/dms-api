@@ -6,9 +6,12 @@ var
   fixtures = require('../fixtures/fixtures'),
   userResource = require('./userResource'),
   authenticate = require('./authenticate'),
+  documentResource = require('./documentResource'),
+  roleResource = require('./roleResource'),
   not_found = require('./404'),
   models = require('../../models'),
   ControllerHelpers = require('../../controllers/ControllerHelpers'),
+  jwt = require('jsonwebtoken'),
   api = request(app);
 
 
@@ -20,6 +23,12 @@ authenticate(api, expect, fixtures);
 
 // Load in test fixtures and run tests for the User Resource.
 userResource(api, expect, fixtures);
+
+// Load in test fixtures and run tests for Document Resource.
+documentResource(api, expect, fixtures, jwt);
+
+//Load in test fixtures and run tests for Role Resource.
+roleResource(api, expect, fixtures, jwt);
 
 // Run tests for requested Resource not found.
 not_found(api, models);

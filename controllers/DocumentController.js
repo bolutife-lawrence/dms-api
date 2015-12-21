@@ -12,8 +12,8 @@ module.exports = (() => {
         req.body.roles,
         req.body.username
       ];
-      DocumentHelper.createDocument(...args, (err) => {
-        var args = [err, null, null, 'Document created sucessfully', res];
+      DocumentHelper.createDocument(...args, (err, doc) => {
+        var args = [err, 'doc', doc, 'Document created sucessfully', res];
         return _h.feedback(...args);
       });
     });
@@ -59,7 +59,7 @@ module.exports = (() => {
       if (err) return res.status(400).json(err);
       DocumentHelper.deleteDocument(req.params.id, req.body.username, (err) => {
         var args = [err, null, null, 'Document deleted successfully!', res];
-        return _h.feedback(args);
+        return _h.feedback(...args);
       });
     });
   };

@@ -27,7 +27,7 @@ var DocHelper = (models, _h, co) => {
       });
       var savedDocument = yield newDoc.save();
       return savedDocument ?
-        cb() : cb(`Document could not be created`);
+        cb(null, savedDocument) : cb(`Document could not be created`);
     });
   };
 
@@ -84,8 +84,15 @@ var DocHelper = (models, _h, co) => {
       if (_roles.length === 0)
         return cb('Role(s) specified could not be found.');
       if (!user) return cb(`Invalid username: ${docDetails.username}`);
+      var findDocMatch = yield models.Document.find({
+        'userId': user._id,
+        'title': docDetails.title
+      });
+      if (findDocMatch.length !== 0) {
+        return cb(`Document \'${docDetails.title}\' already' +
+        'created by ${user.username}`);
+      }
       docDetails.roles = _roles;
-      docDetails.docType = _h.getDocType(docDetails.docName);
       var query = {
         $and: [{
           '_id': docId
@@ -116,7 +123,6 @@ var DocHelper = (models, _h, co) => {
             'userId': user._id
           }]
         };
-        console.log(query);
         var deletedDoc = yield models.Document.findOneAndRemove(query);
         return !deletedDoc ? cb('Access Denied! Document not found!') : cb();
       } catch (e) {

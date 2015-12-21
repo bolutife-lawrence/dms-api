@@ -14,6 +14,7 @@ router.all('*', auth.isSuperAdmin);
 router.route('/').post(controllers.RoleController.createRole);
 router.route('/:id')
   .delete(controllers.RoleController.deleteRole)
-  .put(controllers.RoleController.updateRole);
+  .put(controllers.RoleController.updateRole)
+  .get(controllers.RoleController.getRole);
 
 module.exports = router;

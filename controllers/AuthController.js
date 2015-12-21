@@ -2,7 +2,6 @@ var models = require('../models'),
   _validate = require('../helpers/expressValidators'),
   _h = require('../helpers/helperFunctions'),
   jwt = require('jsonwebtoken'),
-  secretKey = require('../config/secret'),
   co = require('co');
 
 module.exports = (() => {
@@ -28,7 +27,7 @@ module.exports = (() => {
             var options = {
               expiresIn: '24h' // expires in 24 hours from creation.
             };
-            jwt.sign(user, secretKey.key, options, (token) => {
+            jwt.sign(user, process.env.SECRET_KEY, options, (token) => {
               // return the information including token as JSON
               res.json({
                 success: true,
