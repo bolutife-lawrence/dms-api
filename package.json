@@ -2,7 +2,7 @@
   "name": "DMS-API",
   "version": "1.0.0",
   "description": "API for Document Management System",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "./sh/test.sh",
     "coveralls": "./sh/coveralls.sh",
@@ -20,6 +20,7 @@
   "author": "lawrence bolutife",
   "license": "MIT",
   "dependencies": {
+    "async": "^1.5.2",
     "bcrypt": "^0.8.5",
     "body-parser": "~1.14.1",
     "co": "^4.6.0",
@@ -29,6 +30,7 @@
     "express": "~4.13.1",
     "express-validator": "^2.18.0",
     "jsonwebtoken": "^5.4.1",
+    "lodash": "^4.0.0",
     "method-override": "^2.3.5",
     "mongoose": "^4.2.9",
     "mongoose-paginate": "^5.0.0",
