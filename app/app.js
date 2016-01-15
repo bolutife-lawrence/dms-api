@@ -11,8 +11,11 @@ module.exports = (() => {
     router = require('./server/routes'),
     errorHandler = require('./middlewares/error-handler');
 
+if (process.env.NODE_ENV === 'development') {
   // load all environment variables in the .env file.
   require('dotenv').load();
+}
+
   // Connect to mongodb
   mongoConnect();
 
