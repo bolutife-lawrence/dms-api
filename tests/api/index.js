@@ -2,6 +2,7 @@ var
   app = require('../../app/app'),
   request = require('supertest'),
   expect = require('expect.js'),
+  path = require('path'),
   _async = require('async'),
   _api = require('./api'),
   fixtures = require('../fixtures/fixtures'),
@@ -11,8 +12,9 @@ var
   documentResource = require('./document-resource'),
   roleResource = require('./role-resource'),
   not_found = require('./404'),
-  models = require('../../app/server/models'),
-  ctrlHelpers = require('../../app/server/controllers/controller-helpers'),
+  models = require(path.join(__dirname, '../../app/server/models')),
+  ctrlPath = '../../app/server/controllers/controller-helpers',
+  ctrlHelpers = require(path.join(__dirname, ctrlPath)),
   jwt = require('jsonwebtoken'),
   api = request(app);
 
