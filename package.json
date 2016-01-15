@@ -32,7 +32,7 @@
     "jsonwebtoken": "^5.4.1",
     "lodash": "^4.0.0",
     "method-override": "^2.3.5",
-    "mongoose": "^4.2.9",
+    "mongoose": "^4.3.5",
     "mongoose-paginate": "^5.0.0",
     "morgan": "~1.6.1",
     "passport": "^0.3.2",
@@ -42,7 +42,7 @@
     "coveralls": "^2.11.6",
     "expect.js": "^0.3.1",
     "istanbul": "~0.4.0",
-    "js-yaml": "^3.4.6",
+    "js-yaml": "^3.5.2",
     "mocha": "^2.3.4",
     "mocha-lcov-reporter": "^1.0.0",
     "supertest": "^1.1.0"
