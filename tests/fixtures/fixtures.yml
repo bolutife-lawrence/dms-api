@@ -32,7 +32,6 @@ admin_user:
   username: steve45
   email: steven_c@gmail.com
   password: santasecret
-  lastname: Steven
   role: admin
 
 users: !!omap ##Array of users.
