@@ -34,19 +34,26 @@ var auth = (jwt) => {
 
   var isAdmin = (req, res, next) => {
     var userRole = req.user.role[0].title.toLowerCase();
-    return userRole === 'admin' || userRole === 'superadmin' ? next() :
-      res.status(403).json({
+    if (userRole === 'admin' || userRole === 'superadmin') {
+      next();
+    } else {
+      return res.status(403).json({
         success: false,
         message: 'Access Denied! You cannot perform this operation'
-      }), false;
+      });
+    }
   };
 
   var isSuperAdmin = (req, res, next) => {
     var userRole = req.user.role[0].title.toLowerCase();
-    return userRole === 'superadmin' ? next() : res.status(403).json({
-      success: false,
-      message: 'Access Denied! You cannot perform this operation'
-    }), false;
+    if (userRole === 'superadmin') {
+      next();
+    } else {
+      res.status(403).json({
+        success: false,
+        message: 'Access Denied! You cannot perform this operation'
+      });
+    }
   };
 
   var checkAccessRole = (req, res, next) => {
@@ -54,7 +61,9 @@ var auth = (jwt) => {
       success: false,
       message: 'Access Denied! You cannot perform this operation'
     };
-    if (!('role' in req.body)) next();
+    if (!('role' in req.body)) {
+      return next();
+    }
     var role = req.body.role.toLowerCase();
     if (role === 'superadmin') {
       if ('auth_code' in req.body) {
