@@ -18,7 +18,7 @@ var auth = (jwt) => {
           });
         } else {
           // if everything is good, save to request for use in other routes
-          req.user = decoded;
+          req.user = decoded._doc;
           next();
         }
       });
