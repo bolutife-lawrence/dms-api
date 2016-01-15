@@ -28,8 +28,8 @@ var documentResource = (api, expect, fixtures, jwt, _async, invalidId) => {
               expect(err).to.be(null);
               jwt.verify(res.body.token, process.env.SECRET_KEY, (err, user) => {
                 expect(err).to.be(null);
-                _users[user.role[0].title] = {
-                  id: user._id,
+                _users[user._doc.role[0].title] = {
+                  id: user._doc._id,
                   token: res.body.token
                 };
                 api
@@ -412,7 +412,7 @@ var documentResource = (api, expect, fixtures, jwt, _async, invalidId) => {
             pokerUserToken = res.body.token;
             jwt.verify(pokerUserToken, process.env.SECRET_KEY, (err, user) => {
               expect(err).to.be(null);
-              pokerUserRoleId = user.role[0]._id;
+              pokerUserRoleId = user._doc.role[0]._id;
               api
                 .get('/api/v0.1/roles/' + pokerUserRoleId + '/documents')
                 .set('x-access-token', pokerUserToken)
