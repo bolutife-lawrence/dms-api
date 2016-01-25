@@ -4,6 +4,7 @@ logs
 .env
 uploads
 .DS_Store
+.jsbeautifyrc
 
 # Runtime data
 pids
