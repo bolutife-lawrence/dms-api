@@ -1,1 +1,1 @@
-web: node ./bin/www.js -log-file- 
+web: node server.js -log-file-
