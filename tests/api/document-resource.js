@@ -26,24 +26,25 @@ var documentResource = (api, expect, fixtures, jwt, _async, invalidId) => {
             .expect(200)
             .end((err, res) => {
               expect(err).to.be(null);
-              jwt.verify(res.body.token, process.env.SECRET_KEY, (err, user) => {
-                expect(err).to.be(null);
-                _users[user._doc.role[0].title] = {
-                  id: user._doc._id,
-                  token: res.body.token
-                };
-                api
-                  .post('/api/v0.1/documents')
-                  .set('Accept', 'application/x-www-form-urlencoded')
-                  .set('x-access-token', res.body.token)
-                  .send(docs[logins.indexOf(login)])
-                  .expect('Content-Type', /json/)
-                  .expect(200)
-                  .end((err) => {
-                    expect(err).to.be(null);
-                    cb();
-                  });
-              });
+              jwt.verify(res.body.token,
+                process.env.WEB_TOKEN_SECRET, (err, user) => {
+                  expect(err).to.be(null);
+                  _users[user._doc.role[0].title] = {
+                    id: user._doc._id,
+                    token: res.body.token
+                  };
+                  api
+                    .post('/api/v0.1/documents')
+                    .set('Accept', 'application/x-www-form-urlencoded')
+                    .set('x-access-token', res.body.token)
+                    .send(docs[logins.indexOf(login)])
+                    .expect('Content-Type', /json/)
+                    .expect(200)
+                    .end((err) => {
+                      expect(err).to.be(null);
+                      cb();
+                    });
+                });
             });
         }, (err) => {
           expect(err).to.be(null);
@@ -323,7 +324,7 @@ var documentResource = (api, expect, fixtures, jwt, _async, invalidId) => {
       it('should reterive all documents created by a user', (done) => {
         api
           .get('/api/v0.1/users/' + _users.moderator.id + '/documents')
-          .set('x-access-token',  _users.moderator.token)
+          .set('x-access-token', _users.moderator.token)
           .expect('Content-Type', /json/)
           .expect(200)
           .end((err, res) => {
@@ -410,24 +411,25 @@ var documentResource = (api, expect, fixtures, jwt, _async, invalidId) => {
           .end((err, res) => {
             expect(err).to.be(null);
             pokerUserToken = res.body.token;
-            jwt.verify(pokerUserToken, process.env.SECRET_KEY, (err, user) => {
-              expect(err).to.be(null);
-              pokerUserRoleId = user._doc.role[0]._id;
-              api
-                .get('/api/v0.1/roles/' + pokerUserRoleId + '/documents')
-                .set('x-access-token', pokerUserToken)
-                .expect('Content-Type', /json/)
-                .expect(200)
-                .end((err, res) => {
-                  expect(err).to.be(null);
-                  expect(res.body.success).to.be.ok();
-                  expect(res.body.docs.total).to.be(2);
-                  expect(res.body.docs.limit).to.be(20);
-                  expect(res.body.docs.pages).to.be(1);
-                  expect(res.body.docs.page).to.be(1);
-                  done();
-                });
-            });
+            jwt.verify(pokerUserToken,
+              process.env.WEB_TOKEN_SECRET, (err, user) => {
+                expect(err).to.be(null);
+                pokerUserRoleId = user._doc.role[0]._id;
+                api
+                  .get('/api/v0.1/roles/' + pokerUserRoleId + '/documents')
+                  .set('x-access-token', pokerUserToken)
+                  .expect('Content-Type', /json/)
+                  .expect(200)
+                  .end((err, res) => {
+                    expect(err).to.be(null);
+                    expect(res.body.success).to.be.ok();
+                    expect(res.body.docs.total).to.be(2);
+                    expect(res.body.docs.limit).to.be(20);
+                    expect(res.body.docs.pages).to.be(1);
+                    expect(res.body.docs.page).to.be(1);
+                    done();
+                  });
+              });
           });
       });
 
