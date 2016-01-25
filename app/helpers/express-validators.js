@@ -9,57 +9,60 @@ module.exports = (() => {
       };
       cb(error);
     } else cb();
-  };
+  },
 
-  var validateAuthParams = (req, cb) => {
+  validateAuthParams = (req, cb) => {
     // validate request body fields.
     req.checkBody('login', 'username or email is required to gain access')
       .notEmpty();
     req.checkBody('password', 'password field cannot be empty.').notEmpty();
     return feedback(req, cb);
-  };
+  },
 
-  function validateUserDetails(req, cb) {
+  validateUserDetails = (req, cb) => {
     // validate request body fields.
-    req.checkBody('username', 'username is required')
-      .len(4, 20).withMessage('username should be between 6 to 30 characters')
-      .notEmpty();
-    req.checkBody('lastname', 'lastname is required')
+    req.checkBody('username')
+      .len(4, 20).withMessage('username should be between 6 to 30 characters');
+    req.checkBody('lastname')
       .isAlpha().withMessage('lastname can only contain alphabets')
-      .len(1, 50).withMessage('lastname should be between 6 to 50 characters')
-      .notEmpty();
-    req.checkBody('firstname', 'firstname is required')
+      .len(1, 50).withMessage('lastname should be between 6 to 50 characters');
+    req.checkBody('firstname')
       .isAlpha().withMessage('firstname can only contain alphabets')
-      .len(1, 50).withMessage('firstname should be between 6 to 50 characters')
-      .notEmpty();
+      .len(1, 50).withMessage('firstname should be between 6 to 50 characters');
     req.checkBody('email', 'Invalid Email. Please provide a valid email')
       .notEmpty().withMessage('email is required')
       .isEmail();
     req.checkBody('password', 'password is required')
       .len(6, 20).withMessage('password should be between 6 to 20 characters')
       .notEmpty();
-    req.checkBody('role', 'role is required')
-      .len(3, 20).withMessage('role should be between 6 to 50 characters')
-      .notEmpty();
+    req.checkBody('role')
+      .len(3, 20).withMessage('role should be between 6 to 50 characters');
     return feedback(req, cb);
-  }
+  },
 
-  function validatePaginationParams(req, cb) {
+  validatePaginationParams = (req, cb) => {
     if (req.query.hasOwnProperty('page'))
       req.checkQuery('page', 'Page number must be an interger').isInt();
     if (req.query.hasOwnProperty('limit'))
       req.checkQuery('limit', 'limit must be an interger').isInt();
     return feedback(req, cb);
-  }
+  },
 
-  function validateId(req, cb) {
+  validateId = (req, cb) => {
     req.checkParams('id', 'userId is required to fetch a user')
-      .len(24).withMessage('Invalid Id')
+      .len(24, 24).withMessage('Invalid Id')
       .notEmpty();
     return feedback(req, cb);
-  }
+  },
 
-  function validateDocDetails(req, cb) {
+  validatePubId = (req, cb) => {
+    req.checkParams('id', 'Image public id is required')
+      .len(20, 20).withMessage('Invalid Id')
+      .notEmpty();
+    return feedback(req, cb);
+  },
+
+  validateDocDetails = (req, cb) => {
     req.checkBody('title', 'Document title is required')
       .len(3, 50)
       .withMessage('Document title can only be between 3 to 50 characters.')
@@ -71,11 +74,12 @@ module.exports = (() => {
     req.checkBody('roles', 'Atleast a role must be specified.')
       .notEmpty();
     return feedback(req, cb);
-  }
+  },
 
-  var validateRoleTitle = (req, cb) => {
+  validateRoleTitle = (req, cb) => {
     req.checkBody('title', 'Role title is required to create new role.')
-      .len(2, 50).withMessage('Role title can only be between 3 to 50 characters.')
+      .len(2, 50)
+      .withMessage('Role title can only be between 3 to 50 characters.')
       .notEmpty();
     return feedback(req, cb);
   };
@@ -85,6 +89,7 @@ module.exports = (() => {
     validateUserDetails: validateUserDetails,
     validatePaginationParams: validatePaginationParams,
     validateId: validateId,
+    validatePubId: validatePubId,
     validateDocDetails: validateDocDetails,
     validateRoleTitle: validateRoleTitle
   };
