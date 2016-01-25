@@ -28,10 +28,9 @@ var authenticate = (api, expect, fixtures) => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
-          var success_msg = 'Authentication successful. Enjoy your token!';
+          var success_msg = 'Authentication successful!';
           expect(err).to.be(null);
           expect(res.body).to.be.an('object');
-          expect(res.body).to.only.have.keys(['success', 'message', 'token']);
           expect(res.body.success).to.be.ok();
           expect(res.body.message).to.be(success_msg);
           expect(res.body.token).to.be.ok();
