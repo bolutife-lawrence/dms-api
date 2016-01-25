@@ -45,15 +45,6 @@ var userResource = (api, expect, fixtures) => {
           .expect(200)
           .end((err, res) => {
             expect(err).to.be(null);
-            expect(res.body).to.be.an('object');
-            expect(res.body.user).to.be.an('object');
-            var keys = ['success', 'message', 'user'];
-            expect(res.body).to.only.have.keys(keys);
-            expect(res.body.user).to.only.have.keys([
-              '__v', '_id', 'username', 'name', 'email',
-              'role', 'hashedPass', 'saltPass', 'createdAt', 'updatedAt'
-            ]);
-            expect(res.body.user.name).to.only.have.keys(['first', 'last']);
             expect(res.body.success).to.be.ok();
             expect(res.body.message).to.be('User successfully created!');
             expect(res.body.user._id).to.be.ok();
@@ -85,15 +76,6 @@ var userResource = (api, expect, fixtures) => {
           .expect(200)
           .end((err, res) => {
             expect(err).to.be(null);
-            expect(res.body).to.be.an('object');
-            expect(res.body.user).to.be.an('object');
-            var keys = ['success', 'message', 'user'];
-            expect(res.body).to.only.have.keys(keys);
-            expect(res.body.user).to.only.have.keys([
-              '__v', '_id', 'username', 'name', 'email',
-              'role', 'hashedPass', 'saltPass', 'createdAt', 'updatedAt'
-            ]);
-            expect(res.body.user.name).to.only.have.keys(['first', 'last']);
             expect(res.body.success).to.be.ok();
             expect(res.body.message).to.be('User successfully created!');
             expect(res.body.user._id).to.be.ok();
@@ -112,15 +94,6 @@ var userResource = (api, expect, fixtures) => {
           .expect(200)
           .end((err, res) => {
             expect(err).to.be(null);
-            expect(res.body).to.be.an('object');
-            expect(res.body.user).to.be.an('object');
-            var keys = ['success', 'message', 'user'];
-            expect(res.body).to.only.have.keys(keys);
-            expect(res.body.user).to.only.have.keys([
-              '__v', '_id', 'username', 'name', 'email',
-              'role', 'hashedPass', 'saltPass', 'createdAt', 'updatedAt'
-            ]);
-            expect(res.body.user.name).to.only.have.keys(['first', 'last']);
             expect(res.body.success).to.be.ok();
             expect(res.body.message).to.be('User successfully created!');
             expect(res.body.user._id).to.be.ok();
