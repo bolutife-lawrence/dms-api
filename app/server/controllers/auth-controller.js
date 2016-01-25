@@ -25,11 +25,12 @@ var authController = (models, _validate, _h, jwt, co) => {
             var options = {
               expiresIn: '24h' // expires in 24 hours from creation.
             };
-            jwt.sign(user, process.env.SECRET_KEY, options, (token) => {
+            jwt.sign(user, process.env.WEB_TOKEN_SECRET, options, (token) => {
               // return the information including token as JSON
               res.json({
                 success: true,
-                message: 'Authentication successful. Enjoy your token!',
+                message: 'Authentication successful!',
+                user: user,
                 token: token
               });
             });
