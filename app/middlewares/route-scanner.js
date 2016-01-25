@@ -85,6 +85,18 @@ var scanRoutes = (req, res, next) => {
     });
     break;
 
+  case req.url === '/image/upload':
+    auth.isAuthenticated(req, res, () => {
+      next();
+    });
+    break;
+
+  case /^\/images\/[a-z0-9]{20}$/i.test(req.url):
+    auth.isAuthenticated(req, res, () => {
+      next();
+    });
+    break;
+
   case '/documents' === req.url:
     auth.isAuthenticated(req, res, () => {
       switch (req.method) {
