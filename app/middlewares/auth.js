@@ -9,7 +9,7 @@ var auth = (jwt) => {
     // decode token
     if (token) {
       // verifies secret and checks exp
-      jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+      jwt.verify(token, process.env.WEB_TOKEN_SECRET, (err, decoded) => {
         if (err) {
           return res.status(500).json({
             success: false,
