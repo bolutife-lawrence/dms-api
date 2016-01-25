@@ -5,6 +5,8 @@ var express = require('express'),
   authRoute = require('./auth'),
   userRoutes = require('./users'),
   docRoutes = require('./documents'),
+  imgUploadRoutes = require('./upload'),
+  upload = require('../../config/multer'),
   roleRoutes = require('./roles');
 
 // Middleware - Scan all requests to the router.
@@ -18,6 +20,8 @@ userRoutes(router, controllers);
 docRoutes(router, controllers);
 // Role Routes
 roleRoutes(router, controllers);
+// Image upload Routes
+imgUploadRoutes(router, controllers, upload);
 
 router.get('/', function (req, res) {
   res.status(200).json({
