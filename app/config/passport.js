@@ -165,7 +165,6 @@ var FacebookStrategy = require('passport-facebook').Strategy,
           // user already exists and is logged in, we have to link accounts
           var user = req.user, // pull the user out of the session
             fullname = profile._json.name.givenName.split(' ');
-          console.log(profile);
           if (user.email === profile._json.emails[0].value) {
             user.google.id = profile.id;
             user.google.token = token;
