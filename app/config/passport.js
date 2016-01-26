@@ -76,19 +76,17 @@ var FacebookStrategy = require('passport-facebook').Strategy,
           // user already exists and is logged in, we have to link accounts
           var user = req.user; // pull the user out of the session
           if (user.email === profile._json.email) {
-            if (user.email === profile._json.email) {
-              user.facebook.id = profile.id;
-              user.facebook.token = token;
-              user.name.last = profile._json.last_name;
-              user.name.first = profile._json.first_name;
-              user.img_url = profile._json.picture.data.url;
-              user.save((err) => {
-                if (err) {
-                  return done(err);
-                }
-                return done(null, user);
-              });
-            }
+            user.facebook.id = profile.id;
+            user.facebook.token = token;
+            user.name.last = profile._json.last_name;
+            user.name.first = profile._json.first_name;
+            user.img_url = profile._json.picture.data.url;
+            user.save((err) => {
+              if (err) {
+                return done(err);
+              }
+              return done(null, user);
+            });
           } else {
             var newUser = new models.User();
             newUser.facebook.id = profile.id;
@@ -167,6 +165,7 @@ var FacebookStrategy = require('passport-facebook').Strategy,
           // user already exists and is logged in, we have to link accounts
           var user = req.user, // pull the user out of the session
             fullname = profile._json.name.givenName.split(' ');
+          console.log(profile);
           if (user.email === profile._json.emails[0].value) {
             user.google.id = profile.id;
             user.google.token = token;

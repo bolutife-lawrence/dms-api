@@ -10,7 +10,9 @@ var passportRoutes = (router, passport, jwt) => {
   router.route('/auth/google')
     .get(passport.authenticate('google', {
       scope: [
-        'https://www.googleapis.com/auth/plus.login'
+        'https://www.googleapis.com/auth/plus.login',
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'email'
       ]
     }));
 

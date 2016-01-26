@@ -17,8 +17,7 @@ var UserSchema = new Schema({
   },
   email: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   google: {
     id: {
