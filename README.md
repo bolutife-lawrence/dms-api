@@ -94,8 +94,8 @@ _*User Image Upload*_
 
 Request type | Endpoint | Action | Privilege
 ------------ | -------- | ------ | ---------
-POST | /image/upload | Upload or change users' profile picture | Authenticated user
-DELETE | images/:id | Remove profile picture | Authenticated user
+POST | /api/v0.1/image/upload | Upload or change users' profile picture | Authenticated user
+DELETE | /api/v0.1/images/:id | Remove profile picture | Authenticated user
 
 _*Documents*_
 
