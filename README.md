@@ -1,4 +1,4 @@
-# Documnent Managemant System (API)
+# Document Management System (API)
 
 ![BUILT WITH NODE](https://raw.githubusercontent.com/pixel-cookers/built-with-badges/master/node/node-long.png)
 ![BUILT WITH mongoDB](https://raw.githubusercontent.com/pixel-cookers/built-with-badges/master/mongoDB/mongodb-long-flat.png)
