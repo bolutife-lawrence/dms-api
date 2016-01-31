@@ -124,9 +124,9 @@ DELETE | /api/v0.1/roles/:id | Remove a specific role form storage | Superadmin
 
 After installation, run the ``` npm test ``` command to run all tests.
 
-**Test framework** - Mocha and supertest
-**Assertion library** - Expect.js
-**Test coverage tool/service** - Coveralls
+- **Test framework** - Mocha and supertest
+- **Assertion library** - Expect.js
+- **Test coverage tool/service** - Coveralls
 
 ## Contributors
 
