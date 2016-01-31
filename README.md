@@ -31,7 +31,7 @@ Post data
 
 **********
 
-**create a new document**
+**Create a new document**
 
 Documnent is created by an existing and authenticated user.
 
@@ -47,7 +47,7 @@ Post data
 
 ***********
 
-**create a new role - Superadmin operation**
+**Create a new role - Superadmin operation**
 
 Role is created by an Authorized and Authenticated user (superadmin).
 
@@ -81,7 +81,7 @@ _*Users*_
 
 Request type | Endpoint | Action | Privilege
 ------------ | -------- | ------ | ---------
-POST | /api/v0.1/users | Create a new user | anyone
+POST | /api/v0.1/users | Create a new user | Anyone
 GET | /api/v0.1/users | Get all users | Superadmin and Admin
 GET | /api/v0.1/users:id | Get a specific user | Authenticated user
 PUT | /api/v0.1/users/:id | Update user information | Authenticated and Authorized user
