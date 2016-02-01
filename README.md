@@ -1,10 +1,12 @@
-# Documnent Managemant System (API)
+# Document Management System (API)
 ![BUILT WITH NODE](https://raw.githubusercontent.com/pixel-cookers/built-with-badges/master/node/node-long.png)
 ![BUILT WITH mongoDB](https://raw.githubusercontent.com/pixel-cookers/built-with-badges/master/mongoDB/mongodb-long-flat.png)
 [![Build Status](https://travis-ci.org/andela-blawrence/DMS-REST-API.svg)](https://travis-ci.org/andela-blawrence/DMS-REST-API)
 [![Coverage Status](https://coveralls.io/repos/andela-blawrence/DMS-REST-API/badge.svg?branch=dev&service=github)](https://coveralls.io/github/andela-blawrence/DMS-REST-API?branch=dev)
 [![Code Climate](https://codeclimate.com/repos/5670c8013946f27716000977/badges/84128e99aba126ced466/gpa.svg)](https://codeclimate.com/repos/5670c8013946f27716000977/feed)
 [![Issue Count](https://codeclimate.com/repos/5670c8013946f27716000977/badges/84128e99aba126ced466/issue_count.svg)](https://codeclimate.com/repos/5670c8013946f27716000977/feed)
+
+## Synopsis
 
 The system manages documents, users and user roles. Each document defines access rights; the document defines which roles can access it. Also, each document specifies the date it was published.
 
@@ -31,7 +33,7 @@ Post data
 
 **********
 
-**create a new document**
+**Create a new document**
 
 Documnent is created by an existing and authenticated user.
 
@@ -47,7 +49,7 @@ Post data
 
 ***********
 
-**create a new role - Superadmin operation**
+**Create a new role - Superadmin operation**
 
 Role is created by an Authorized and Authenticated user (superadmin).
 
@@ -59,6 +61,9 @@ Post data
   title: 'Trainer'
 }
 ```
+
+**********
+
 ## Motivation
 
 This project was setup with the intention of creating a secure platform where documents created remain confidential to their owners and featured owners. It is still in its initial stage. I do hope that it will gain maximum usage and recognition later on as I and other interested folks continue to work on it. :grin:
@@ -81,7 +86,7 @@ _*Users*_
 
 Request type | Endpoint | Action | Privilege
 ------------ | -------- | ------ | ---------
-POST | /api/v0.1/users | Create a new user | anyone
+POST | /api/v0.1/users | Create a new user | Anyone
 GET | /api/v0.1/users | Get all users | Superadmin and Admin
 GET | /api/v0.1/users:id | Get a specific user | Authenticated user
 PUT | /api/v0.1/users/:id | Update user information | Authenticated and Authorized user
@@ -91,8 +96,8 @@ _*User Image Upload*_
 
 Request type | Endpoint | Action | Privilege
 ------------ | -------- | ------ | ---------
-POST | /image/upload | Upload or change users' profile picture | Authenticated user
-DELETE | images/:id | Remove profile picture | Authenticated user
+POST | /api/v0.1/image/upload | Upload or change users' profile picture | Authenticated user
+DELETE | /api/v0.1/images/:id | Remove profile picture | Authenticated user
 
 _*Documents*_
 
@@ -120,6 +125,10 @@ DELETE | /api/v0.1/roles/:id | Remove a specific role form storage | Superadmin
 ## Tests
 
 After installation, run the ``` npm test ``` command to run all tests.
+
+- **Test frameworks** - Mocha and supertest
+- **Assertion library** - Expect.js
+- **Test coverage tool/service** - Coveralls
 
 ## Contributors
 
