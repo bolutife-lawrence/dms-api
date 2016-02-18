@@ -1,21 +1,6 @@
-var bcrypt = require('bcrypt');
+var helpers = () => {
 
-var helpers = (bcrypt) => {
-  var hash = (password) => {
-      var rand = parseInt(Math.random() * 10),
-        salt = bcrypt.genSaltSync(rand),
-        hashedPass = bcrypt.hashSync(password, salt);
-      return {
-        salt: salt,
-        hashedPass: hashedPass
-      };
-    },
-
-    comparePassword = (password, hash) => {
-      return bcrypt.compareSync(password, hash);
-    },
-
-    feedback = (err, objName, obj, message, res) => {
+    var feedback = (err, objName, obj, message, res, token) => {
       if (err) {
         var error = {
           success: false,
@@ -28,6 +13,9 @@ var helpers = (bcrypt) => {
         };
         if (message) {
           success.message = message;
+        }
+        if (token) {
+          success.token = token;
         }
         if (obj && objName) {
           success[objName] = obj;
@@ -45,11 +33,9 @@ var helpers = (bcrypt) => {
     };
 
   return {
-    hash: hash,
-    comparePassword: comparePassword,
     feedback: feedback,
     returnErrorMsg: returnErrorMsg
   };
 };
 
-module.exports = helpers(bcrypt);
+module.exports = helpers();
