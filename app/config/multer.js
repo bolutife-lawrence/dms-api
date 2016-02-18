@@ -7,6 +7,7 @@ var multer = require('multer'),
       cb(null, file.fieldname + '-' + Date.now());
     }
   }),
+
   filter = (req, file, cb) => {
     if (['image/gif', 'image/jpeg'].indexOf(file.mimetype) !== -1) {
       return cb(null, true);
@@ -16,9 +17,11 @@ var multer = require('multer'),
       message: 'Invalid file type. Only \'jpeg\' and \'gif\' Images are allowed'
     }));
   },
+
   limits = {
-    fileSize: 5000000
+    fileSize: 10000000
   },
+
   upload = multer({
     storage: storage,
     fileFilter: filter,
