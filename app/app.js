@@ -22,7 +22,8 @@ module.exports = (() => {
     passportRoutes = require('./server/routes/passport'),
     router = require('./server/routes'),
     errorHandler = require('./middlewares/error-handler'),
-    cloudinary = require('cloudinary');
+    cloudinary = require('cloudinary'),
+    cors = require('cors');
 
   // pass in an instance of passport fopr configuration
   passportConfig(passport);
@@ -33,17 +34,6 @@ module.exports = (() => {
   // Connect to mongodb
   mongoConnect();
 
-  // Enable cors.
-  app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header(
-      'Access-Control-Allow-Headers',
-      'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-    next();
-  });
-
   app.locals.title = 'DMS API';
   app.locals.strftime = require('strftime');
   app.locals.email = 'lawrence.olaiya@andela.com';
@@ -53,6 +43,7 @@ module.exports = (() => {
   app.use(bodyParser.json());
   app.use(expressValidator());
   app.use(methodOverride());
+  app.use(cors()); // Enable CORS
   app.use(cookieParser());
   app.use(logger('dev'));
   app.use(session({
