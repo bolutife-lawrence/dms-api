@@ -41,8 +41,11 @@ var docHelper = (models, _h, co, _) => {
           return cb(_h.returnErrorMsg('Role(s) specified not found', 404));
         }
         findDocMatch = yield models.Document.findOne({
-          userId: userId,
-          title: title
+          $and: [{
+            userId: userId
+          }, {
+            title: title
+          }]
         });
         if (findDocMatch) {
           return cb(_h.returnErrorMsg('Document already exists', 409));
