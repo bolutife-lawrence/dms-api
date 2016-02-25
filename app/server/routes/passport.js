@@ -1,4 +1,4 @@
-var passportRoutes = (router, passport, jwt) => {
+var passportRoutes = (router, passport) => {
 
   // route for facebook authentication and login
   router.route('/auth/facebook')
@@ -19,38 +19,19 @@ var passportRoutes = (router, passport, jwt) => {
   // the callback after google has authenticated the user
   router.route('/auth/google/callback')
     .get(passport.authenticate('google', {
-      successRedirect: '/api/v0.1/auth/success',
-      failureRedirect: '/api/v0.1/auth/fail'
-    }));
+      failureRedirect: process.env.FAILURE_REDIRECT_URL
+    }), (req, res) => {
+      res.redirect(process.env.SUCCESS_REDIRECT_URL +
+        '/' + req.user._id + '/?token=' + req.user.token);
+    });
 
   // handle the callback after facebook has authenticated the user
   router.route('/auth/facebook/callback')
     .get(passport.authenticate('facebook', {
-      successRedirect: '/api/v0.1/auth/success',
-      failureRedirect: '/api/v0.1/auth/fail'
-    }));
-
-  router.route('/auth/success')
-    .get((req, res) => {
-      var options = {
-        expiresIn: '24h' // expires in 24 hours from creation.
-      };
-      jwt.sign(req.user, process.env.WEB_TOKEN_SECRET, options, (token) => {
-        res.status(200).json({
-          success: true,
-          message: 'Authentication successful!',
-          user: req.user,
-          token: token
-        });
-      });
-    });
-
-  router.route('/auth/fail')
-    .get((req, res) => {
-      res.status(401).json({
-        success: false,
-        message: 'Authentication unsuccessful!',
-      });
+      failureRedirect: process.env.FAILURE_REDIRECT_URL
+    }), (req, res) => {
+      res.redirect(process.env.SUCCESS_REDIRECT_URL +
+        '/' + req.user._id + '/?token=' + req.user.token);
     });
 };
 
