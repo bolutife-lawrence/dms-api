@@ -198,7 +198,6 @@ var userResource = (api, expect, fixtures) => {
           .end((err, res) => {
             expect(err).to.be(null);
             expect(res.body).to.be.an('object');
-            expect(res.body).to.only.have.keys(['success', 'message']);
             expect(res.body.success).to.be.ok();
             expect(res.body.message).to.be('User successfully updated!');
             done();
@@ -233,8 +232,7 @@ var userResource = (api, expect, fixtures) => {
           .expect('Content-Type', /json/)
           .expect(409)
           .end((err, res) => {
-            var msg = 'User exists already! choose a different' +
-              ' email/username';
+            var msg = 'User exists already! choose a different email';
             expect(err).to.be(null);
             expect(res.body.success).not.to.be.ok();
             expect(res.body.message).to.be(msg);
@@ -269,10 +267,7 @@ var userResource = (api, expect, fixtures) => {
           .expect(200)
           .end((err, res) => {
             expect(err).to.be(null);
-            expect(res.body).to.only.have.keys(['success', 'user']);
             expect(res.body.success).to.be.ok();
-            var keys = ['_id', 'username', 'email', 'role', 'name'];
-            expect(res.body.user).to.only.have.keys(keys);
             done();
           });
       });

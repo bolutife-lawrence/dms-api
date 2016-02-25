@@ -102,6 +102,7 @@ var documentResource = (api, expect, fixtures, jwt, _async, invalidId) => {
       });
 
       it('PUT: should throw an error if document exists', (done) => {
+        fixtures._document.update.title = 'Test Doc 1';
         api
           .put('/api/v0.1/documents/' + docID)
           .set('x-access-token', _users.moderator.token)

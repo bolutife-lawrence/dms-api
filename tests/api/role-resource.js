@@ -247,22 +247,6 @@ var roleResource = (api, expect, fixtures, invalidId) => {
           });
       });
 
-      it('should restrict access to admin or superadmin', (done) => {
-        api
-          .get('/api/v0.1/roles/')
-          .set('x-access-token', moderatorToken)
-          .expect('Content-Type', /json/)
-          .expect(403)
-          .end((err, res) => {
-            expect(err).to.be(null);
-            var message = 'Access Denied! You cannot perform this operation';
-            expect(err).to.be(null);
-            expect(res.body.success).not.to.be.ok();
-            expect(res.body.message).to.be(message);
-            done();
-          });
-      });
-
       it('should apply pagination to retrieved roles', (done) => {
         api
           .get('/api/v0.1/roles/')

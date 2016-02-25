@@ -2,26 +2,23 @@
 
 gen_user:
   login:
-    login: Hansonn4
+    email: Hanhel@gmail.com
     password: lifeisgood
   create:
     lastname: Hanson
     firstname: Helen
-    username: Hansonn4
     email: Hanhel@gmail.com
     password: lifeisgood
     role: general
   invalid_user_data:
     lastname: ''
     firstname: ''
-    username: ''
     email: ''
     password: ''
     role: ''
   update:
     lastname: Jeremyya
     firstname: Forbeseey
-    username: Jerome78
     email: jeremy@gmail.com
     password: ilovemylifecute
     role: general
@@ -29,7 +26,6 @@ gen_user:
 admin_user:
   lastname: Steven
   firstname: Craig
-  username: steve45
   email: steven_c@gmail.com
   password: santasecret
   role: admin
@@ -38,64 +34,59 @@ users: !!omap ##Array of users.
   - guest_user:
       lastname: johnson
       firstname: Bush
-      username: Bushha
       email: j_bush@gmail.com
       password: explitus
       role: guest
   - moderator:
       lastname: Samason
       firstname: legend
-      username: legendary
       email: samsam@gmail.com
       password: expliti
       role: moderator
   - poker:
       lastname: code
       firstname: ken
-      username: code_ken
       email: code_ken@gmail.com
       password: mylige
       role: poker
 
 moderator_login:
-  login: legendary
+  email: samsam@gmail.com
   password: expliti
 guest_user_login:
-  login: Bushha
+  email: j_bush@gmail.com
   password: explitus
 poker_user_login:
-  login: code_ken@gmail.com
+  email: code_ken@gmail.com
   password: mylige
 admin_user_login:
-  login: steve45
+  email: steven_c@gmail.com
   password: santasecret
 
 super_user:
   create:
     lastname: lawrence
     firstname: mcbhee
-    username: lawrenzo
     email: lawrence.mcbhee@gmail.com
     password: mcbheerocks34
     role: superadmin
   create2:
     lastname: lawrence
     firstname: mcbhee
-    username: mcbhee45
     email: lawrence_mcbhee@yahoo.com
     password: mcbheerocks34
     role: superadmin
   login:
-    login: lawrenzo
+    email: lawrence.mcbhee@gmail.com
     password: mcbheerocks34
   invalidlogin:
-    login: Lawrenay
+    email: law@gmail.com
     password: mcbheerocks34
   invalidlogin2:
-    login: lawrenzo
+    email: lawrence.mcbhee@gmail.com
     password: irock
   invalidlogin3:
-    login:
+    email:
     password:
 
 ## Create multiple roles
@@ -138,11 +129,11 @@ doc3:
 
 _document:
   create:
-    title: Doc-2
+    title: Lorem
     content: Lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
     roles: poker
   update:
-    title: Doc-2-Doc
+    title: Lorem ipsum
     content: Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
     roles: admin,explitus
 
