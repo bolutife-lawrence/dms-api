@@ -41,7 +41,6 @@ var roleHelper = (models, _h, co) => {
     });
   };
 
-
   /**
    * [description]
    * @param  {[type]}   roleId [description]
@@ -94,7 +93,6 @@ var roleHelper = (models, _h, co) => {
       cb(e);
     }
   };
-
 
   /**
    * [description]

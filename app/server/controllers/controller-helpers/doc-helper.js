@@ -101,7 +101,7 @@ var docHelper = (models, _h, co, _) => {
    *
    * @param  {Number}   userId [ID for a specific user]
    * @param  {Number}   page   [This controls how many documents is returned
-                           	    in an instance]
+                                 in an instance]
    * @param  {Number}   limit  [page number where docs should be loaded into]
    * @param  {Function} cb     [callback function]
    *
@@ -141,11 +141,17 @@ var docHelper = (models, _h, co, _) => {
    * @param  {Function} cb     [description]
    * @return {[type]}          [description]
    */
-  var getDocsByRole = (roleId, page, limit, cb) => {
+  var getDocsByRole = (roleId, userId, page, limit, cb) => {
     var query = {
-        roles: {
-          $in: [roleId]
-        }
+        $and: [{
+          roles: {
+            $in: [roleId]
+          }
+        }, {
+          userId: {
+            $ne: userId
+          }
+        }]
       },
       options = {
         sort: {
@@ -159,7 +165,7 @@ var docHelper = (models, _h, co, _) => {
           select: 'title'
         }, {
           path: 'userId',
-          select: 'username'
+          select: 'name email'
         }]
       };
     models.Document.paginate(query, options, (err, docs) => {
@@ -191,11 +197,11 @@ var docHelper = (models, _h, co, _) => {
             select: 'title'
           }, {
             path: 'userId',
-            select: 'username'
+            select: 'name'
           }]);
         if (doc) {
           var roles = _.map(doc.roles, 'title'),
-            userRole = user.role[0].title.toLowerCase(),
+            userRole = user.role[0].title,
             checkRole = roles.indexOf(userRole) !== -1 ||
             userRole == 'admin' || userRole == 'superadmin' ||
             user._id === doc.userId[0]._id.toString();
@@ -250,13 +256,23 @@ var docHelper = (models, _h, co, _) => {
           return cb(_h.returnErrorMsg('Role(s) specified not found.', 404));
         }
         var findDocMatch = yield models.Document.findOne({
-          userId: userId,
-          title: docDetails.title
+          $and: [{
+            $and: [{
+              title: docDetails.title
+            }, {
+              _id: {
+                $ne: docId
+              }
+            }]
+          }, {
+            userId: userId
+          }]
         });
         if (findDocMatch) {
           return cb(_h.returnErrorMsg('Document exists already', 409));
         }
         docDetails.roles = _roles;
+        docDetails.updatedAt = Date.now();
         updatedDoc = yield models.Document.findOneAndUpdate(query, docDetails);
         if (!updatedDoc) {
           return cb(_h.returnErrorMsg('Document could not be updated', null));
@@ -294,7 +310,7 @@ var docHelper = (models, _h, co, _) => {
           var err = ['Access Denied! You cannot perform this operation', 403];
           return cb(_h.returnErrorMsg(...err));
         }
-        var deletedDoc = models.Document.findOneAndRemove(query);
+        var deletedDoc = yield models.Document.findOneAndRemove(query);
         if (!deletedDoc) {
           return cb(_h.returnErrorMsg('Document could not be deleted', null));
         }

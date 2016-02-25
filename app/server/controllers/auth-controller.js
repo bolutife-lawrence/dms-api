@@ -6,40 +6,52 @@ var authController = (models, _validate, _h, jwt, co) => {
         // Authenticate a user
         // find the user
         var user = yield models.User.findOne({
-          $or: [{
-            username: req.body.login
-          }, {
-            email: req.body.login
-          }]
-        }).populate('role');
+          email: req.body.email
+        }).populate({
+          path: 'role',
+          select: 'title'
+        });
+
         if (!user) {
           res.status(404).json({
             success: false,
             message: 'Authentication failed. User not found.'
           });
-        } else if (user) {
-          // check if password matches
-          if (_h.comparePassword(req.body.password, user.hashedPass)) {
-            // if user is found and password is right
-            // create a token
-            var options = {
-              expiresIn: '24h' // expires in 24 hours from creation.
-            };
-            jwt.sign(user, process.env.WEB_TOKEN_SECRET, options, (token) => {
-              // return the information including token as JSON
-              res.json({
-                success: true,
-                message: 'Authentication successful!',
-                user: user,
-                token: token
-              });
-            });
-          } else {
-            res.status(401).json({
+        } else {
+          if (user.google.id || user.facebook.id) {
+            return res.status(401).json({
               success: false,
-              message: 'Authentication failed. Wrong password.'
+              message: 'Hello, Looks like you logged in using the social ' +
+                'authentication. You cannot use the feature.'
             });
           }
+          // check if password matches
+          user.comparePassword(req.body.password, (err, isMatch) => {
+            if (err) throw err;
+            if (isMatch) {
+              // if user is found and password is right
+              // create a token
+              var options = {
+                expiresIn: '24h' // expires in 24 hours from creation.
+              };
+
+              jwt.sign(user,
+                process.env.WEB_TOKEN_SECRET, options, (token) => {
+                  // return the information including token as JSON
+                  res.json({
+                    success: true,
+                    message: 'Authentication successful!',
+                    user: user,
+                    token: token
+                  });
+                });
+            } else {
+              res.status(401).json({
+                success: false,
+                message: 'Authentication failed. Wrong password.'
+              });
+            }
+          });
         }
       });
     });

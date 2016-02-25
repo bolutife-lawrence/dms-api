@@ -10,7 +10,7 @@ var models = require('../models'),
 
 module.exports = {
   authController: require('./auth-controller')(models, _validate, _h, jwt, co),
-  userController: require('./user-controller')(_validate, _h, userHelper),
+  userController: require('./user-controller')(_validate, _h, userHelper, jwt),
   docController: require('./document-controller')(_validate, _h, docHelper),
   roleController: require('./role-controller')(_validate, _h, roleHelper),
   uploadController: require('./img-upload-controller')

@@ -24,43 +24,36 @@ var userHelper = (models, _h, co) => {
    */
   var
     createUser = (username, lastname, firstname, role, email, password, cb) => {
-      var hashSalt = {};
+      var _role = [];
       co(function* () {
         try {
-          var _role = yield models.Role.findOne({
-            title: role
-          });
-          if (!_role) {
-            return cb(_h.returnErrorMsg('Role specified not found', 404));
+          if (role) {
+            _role = yield models.Role.findOne({
+              title: role
+            });
+            if (!_role) {
+              return cb(_h.returnErrorMsg('Role specified not found', 404));
+            }
           }
           var user = yield models.User.findOne({
-            $or: [{
-              username: username
-            }, {
-              email: email
-            }]
+            email: email
           });
           if (user) {
             return cb(_h.returnErrorMsg('User exists already', 409));
           }
-          hashSalt = _h.hash(password);
           var newUser = new models.User({
-            username: username,
             name: {
               first: firstname,
               last: lastname
             },
             email: email,
-            hashedPass: hashSalt.hashedPass,
-            saltPass: hashSalt.salt,
+            password: password,
             role: _role
           });
           var savedUser = yield newUser.save();
           if (!savedUser) {
             return cb('User was not created', null);
           }
-          delete savedUser.hashedPass;
-          delete savedUser.saltPass;
           cb(null, savedUser);
         } catch (e) {
           cb(e, null);
@@ -79,7 +72,7 @@ var userHelper = (models, _h, co) => {
    */
   var getUsers = (limit, page, cb) => {
     var options = {
-      select: 'username email name role',
+      select: 'email name role img_url',
       sort: {
         createdAt: -1
       },
@@ -102,6 +95,46 @@ var userHelper = (models, _h, co) => {
   /**
    * Retrives a specific user with registered credentials
    *
+   * @param  {Object}   user [current user]
+   * @param  {Function} cb     [callback function]
+   *
+   */
+  var getUsersByRole = (userId, roles, limit, page, cb) => {
+    var options = {
+        select: 'email name role img_url',
+        sort: {
+          createdAt: -1
+        },
+        lean: false,
+        page: page,
+        limit: limit,
+        populate: {
+          path: 'role',
+          select: 'title'
+        }
+      },
+      query = {
+        $and: [{
+          role: {
+            $in: roles.split(',')
+          }
+        }, {
+          _id: {
+            $ne: userId
+          }
+        }]
+      };
+    models.User.paginate(query, options, (err, users) => {
+      if (err) {
+        return cb(_h.returnErrorMsg(err, null));
+      }
+      cb(null, users);
+    });
+  };
+
+  /**
+   * Retrives a specific user with registered credentials
+   *
    * @param  {Number}   userId [ID for a specific user]
    * @param  {Function} cb     [callback function]
    *
@@ -113,7 +146,7 @@ var userHelper = (models, _h, co) => {
           _id: userId
         };
         var user = yield models.User.findOne(query)
-          .select('name username email role')
+          .select('name email role img_url img_public_id google facebook')
           .populate({
             path: 'role',
             select: 'title'
@@ -153,11 +186,7 @@ var userHelper = (models, _h, co) => {
           }),
           user = yield models.User.findOne({
             $and: [{
-              $or: [{
-                username: userDetails.username
-              }, {
-                email: userDetails.email
-              }]
+              email: userDetails.email
             }, {
               _id: {
                 $ne: userId
@@ -169,24 +198,28 @@ var userHelper = (models, _h, co) => {
         }
         if (user) {
           var err = [
-            'User exists already! choose a different email/username',
+            'User exists already! choose a different email',
             409
           ];
           return cb(_h.returnErrorMsg(...err));
         }
-        var hash = _h.hash(userDetails.password);
         userDetails.name = fullname;
-        userDetails.hashedPass = hash.hashedPass;
-        userDetails.saltPass = hash.salt;
         userDetails.role = role;
-        delete userDetails.password;
         delete userDetails.lastname;
         delete userDetails.firstname;
         updatedUser = yield models.User.findOneAndUpdate(query, userDetails);
         if (!updatedUser) {
           return cb(_h.returnErrorMsg('User was not updated', null));
         }
-        cb(null, updatedUser);
+        var _user = yield models.User.findOne({
+          _id: updatedUser._id
+        })
+        .select('name email role img_url img_public_id google facebook')
+        .populate({
+          path: 'role',
+          select: 'title'
+        });
+        cb(null, _user);
       } catch (e) {
         cb(e);
       }
@@ -220,6 +253,7 @@ var userHelper = (models, _h, co) => {
   return {
     createUser: createUser,
     getUsers: getUsers,
+    getUsersByRole: getUsersByRole,
     getUser: getUser,
     updateUser: updateUser,
     deleteUser: deleteUser

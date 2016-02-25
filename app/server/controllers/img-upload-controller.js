@@ -1,10 +1,10 @@
 var uploadController = (_validate, cloudinary, models, co) => {
   var userImgUpload = (req, res) => {
-      if (req.files || req.file) {
+      if (req.file || req.files) {
         var path = req.file.path,
-          cb = (err, imageUrl) => {
-            if (imageUrl) {
-              res.json(imageUrl);
+          cb = (err, uploadResp) => {
+            if (uploadResp) {
+              res.json(uploadResp);
             } else {
               res.status(err.status_code || 500).json({
                 success: false,
@@ -15,20 +15,15 @@ var uploadController = (_validate, cloudinary, models, co) => {
           query = {
             _id: req.user._id
           },
-          imgUpdate = '';
+          imgUpdate = {};
 
         cloudinary.uploader.upload(path, (result) => {
           if (result && !result.error) {
-            console.log(result);
             co(function* () {
-              try {
-                imgUpdate = yield models.User.findOneAndUpdate(query, {
-                  img_public_id: result.public_id,
-                  img_url: result.url
-                });
-              } catch (e) {
-                console.log(e);
-              }
+              imgUpdate = yield models.User.findOneAndUpdate(query, {
+                img_public_id: result.public_id,
+                img_url: result.url
+              });
             });
             if (imgUpdate) {
               cb(null, {
@@ -80,7 +75,9 @@ var uploadController = (_validate, cloudinary, models, co) => {
           if (prevResult && !prevResult.error) {
             var updated = yield models.User.findOneAndUpdate(query, {
               img_public_id: null,
-              img_url: null
+              img_url: 'http://res.cloudinary.com/dms/image/upload/' +
+                'c_scale,h_275,q_98,r_30/v1453209823/' +
+                'default_avatar_fnm9wb.gif'
             });
             if (!updated) {
               res.status(501)
@@ -88,6 +85,13 @@ var uploadController = (_validate, cloudinary, models, co) => {
                   success: false,
                   message: 'Image was not deleted'
                 });
+            } else {
+              res.status(200).json({
+                success: true,
+                img_url: 'http://res.cloudinary.com/dms/image/upload/' +
+                  'c_scale,h_275,q_98,r_30/v1453209823/' +
+                  'default_avatar_fnm9wb.gif'
+              });
             }
           }
         } catch (e) {

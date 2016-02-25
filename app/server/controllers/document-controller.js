@@ -56,8 +56,9 @@ var docController = (_validate, _h, docHelper) => {
       if (err) return res.status(400).json(err);
       _validate.validatePaginationParams(req, (err) => {
         if (err) return res.status(400).json(err);
+        console.log(req.user);
         var args = [
-          req.params.id, parseInt(req.query.page) || 1,
+          req.params.id, req.user._id, parseInt(req.query.page) || 1,
           parseInt(req.query.limit) || 20
         ];
         docHelper.getDocsByRole(...args, function (err, docs) {
