@@ -47,7 +47,6 @@ var scanRoutes = (req, res, next) => {
 
   case req.url.indexOf('/users/featured') !== -1:
     if (req.method === 'GET') {
-      console.log(req.query);
       auth.isAuthenticated(req, res, () => {
         next();
       });
