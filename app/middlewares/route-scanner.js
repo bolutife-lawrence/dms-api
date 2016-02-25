@@ -45,15 +45,18 @@ var scanRoutes = (req, res, next) => {
     }
     break;
 
+  case req.url.indexOf('/users/featured') !== -1:
+    if (req.method === 'GET') {
+      console.log(req.query);
+      auth.isAuthenticated(req, res, () => {
+        next();
+      });
+    }
+    break;
+
   case /^\/users\/[a-z0-9]{24}$/i.test(req.url):
     auth.isAuthenticated(req, res, () => {
       switch (req.method) {
-      case 'GET':
-        auth.isAdmin(req, res, () => {
-          next();
-        });
-        break;
-
       case 'DELETE':
         auth.isSuperAdmin(req, res, () => {
           // A superadmin user can delete any user
@@ -127,12 +130,6 @@ var scanRoutes = (req, res, next) => {
         });
         break;
 
-      case 'GET':
-        auth.isAdmin(req, res, () => {
-          next();
-        });
-        break;
-
       default:
         next();
       }
@@ -142,12 +139,6 @@ var scanRoutes = (req, res, next) => {
   case /\/roles\/[a-z0-9]{24}$/i.test(req.url):
     auth.isAuthenticated(req, res, () => {
       switch (req.method) {
-      case 'GET':
-        auth.isAdmin(req, res, () => {
-          next();
-        });
-        break;
-
       case 'DELETE':
       case 'PUT':
       case 'PATCH':
@@ -165,7 +156,8 @@ var scanRoutes = (req, res, next) => {
   case /^\/roles\/[a-z0-9]{24}\/documents$/i.test(req.url):
     auth.isAuthenticated(req, res, () => {
       if (req.method === 'GET') {
-        if (req.url.indexOf(req.user.role[0]._id) === -1) {
+        var userRole = req.user.role[0]._id;
+        if (req.url.indexOf(userRole) === -1) {
           return res.status(403).json(err);
         }
       }
