@@ -1,0 +1,141 @@
+##################################################### Seeders #####################################################
+
+gen_user:
+  login:
+    email: Hanhel@gmail.com
+    password: lifeisgood
+  create:
+    lastname: Hanson
+    firstname: Helen
+    email: Hanhel@gmail.com
+    password: lifeisgood
+    role: general
+  invalid_user_data:
+    lastname: ''
+    firstname: ''
+    email: ''
+    password: ''
+    role: ''
+  update:
+    lastname: Jeremyya
+    firstname: Forbeseey
+    email: jeremy@gmail.com
+    password: ilovemylifecute
+    role: general
+
+admin_user:
+  lastname: Steven
+  firstname: Craig
+  email: steven_c@gmail.com
+  password: santasecret
+  role: admin
+
+users: !!omap ##Array of users.
+  - guest_user:
+      lastname: johnson
+      firstname: Bush
+      email: j_bush@gmail.com
+      password: explitus
+      role: guest
+  - moderator:
+      lastname: Samason
+      firstname: legend
+      email: samsam@gmail.com
+      password: expliti
+      role: moderator
+  - poker:
+      lastname: code
+      firstname: ken
+      email: code_ken@gmail.com
+      password: mylige
+      role: poker
+
+moderator_login:
+  email: samsam@gmail.com
+  password: expliti
+guest_user_login:
+  email: j_bush@gmail.com
+  password: explitus
+poker_user_login:
+  email: code_ken@gmail.com
+  password: mylige
+admin_user_login:
+  email: steven_c@gmail.com
+  password: santasecret
+
+super_user:
+  create:
+    lastname: lawrence
+    firstname: mcbhee
+    email: lawrence.mcbhee@gmail.com
+    password: mcbheerocks34
+    role: superadmin
+  create2:
+    lastname: lawrence
+    firstname: mcbhee
+    email: lawrence_mcbhee@yahoo.com
+    password: mcbheerocks34
+    role: superadmin
+  login:
+    email: lawrence.mcbhee@gmail.com
+    password: mcbheerocks34
+  invalidlogin:
+    email: law@gmail.com
+    password: mcbheerocks34
+  invalidlogin2:
+    email: lawrence.mcbhee@gmail.com
+    password: irock
+  invalidlogin3:
+    email:
+    password:
+
+## Create multiple roles
+roles: !!omap ## An array of roles.
+  - role1:
+      title: superadmin
+  - role2:
+      title: admin
+  - role3:
+      title: general
+  - role4:
+      title: guest
+  - role5:
+      title: moderator
+  - role6:
+      title: poker
+  - role7:
+      title: explitus
+
+role:
+  create:
+    title: trainer
+  update:
+    title: trainee
+
+doc1:
+  title: Test Doc 1
+  content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
+  roles: poker,explitus
+
+doc2:
+  title: Test Doc 2
+  content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
+  roles: poker,guest
+
+doc3:
+  title: Test Doc 3
+  content: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
+  roles: moderator
+
+_document:
+  create:
+    title: Lorem
+    content: Lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur semper quam in ante gravida semper. Sed laoreet vulputate dignissim. Nulla cursus sem sapien, ac cursus sem ornare et
+    roles: poker
+  update:
+    title: Lorem ipsum
+    content: Cras vel metus aliquam, dapibus enim vel, aliquet dui. Phasellus vehicula varius faucibus. Vestibulum eleifend porttitor massa, ac iaculis felis pharetra sed. Mauris sapien erat, vestibulum nec est vitae, lacinia vestibulum lorem. Cras congue finibus erat, vel venenatis lorem aliquam non. Vestibulum venenatis consectetur neque, id imperdiet erat sollicitudin non. Sed tempor nunc mauris, vel tempor urna posuere ut. Vivamus ut imperdiet nulla. Cras varius risus magna, non egestas enim elementum sit amet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+    roles: admin,explitus
+
+
+##################################################### Seeders #####################################################

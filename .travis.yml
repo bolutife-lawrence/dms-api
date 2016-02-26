@@ -1,0 +1,32 @@
+language: node_js
+env:
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+node_js:
+  - "5.0"
+services:
+  - mongodb
+install:
+  - npm install
+script:
+  - npm test
+after_success:
+  - npm run coveralls
+sudo: false
+notifications:
+  slack: andela:aI4MJFKbo4x5e7c9iHedhsUv
+deploy:
+  provider: heroku
+  api_key:
+    secure: qSO856zjf3W9PMCxJMz9m2fmh5ig2i5FRXj7J0fTpA36MGwCy9DRpBk7Ge+S6hrDXXhH11nwLNKyvX0BtH6n6S/LbMeoBr9fiRZ+JLiOfzI35SvEd+SP5n4zR4OyBM9qk1ewFSRaktSOel4XvMPMaA2Ps+2i6YkZ7i5/6aSZraQSTPKaQokUBKTrj5b7/wVDi+NlgHPZwVTwhInetZZ4efnFvXzUquX+KrknefxLyZluLbffe88b0xvPV+zuP7f62lzzk3NTSjr9O6xTRZ+uDoIlgM/gfOplA33VgmenoHBakuYvaB2xPWaw/1g554jzPcemtjtgDXyTfKxaNQIUD1zG4mjxANXuhW/q+VNkJZwQk7PfYvsOaCjPxFsQU2rZmB+zBOVXhfqILAnYLOxtS0SQY4QWpg9neZKCf573VpmIwQUfO154TW6AdaaDgONyBwkUXLb1ZNp8+jL2dC0G5a/Peq2Go2XX3DGIlcyANUeB7shWqzXrYvMz7jwP/HFNbIwTi8zxBF0T0GuViRVnY8pQ46ruDjHfvncSXUYbkfvzUViaXbFYxXB5iZYvFQ3ZAFuHxth29/6B6/VnlraRNlcRj8JgTDnunsvJ9ITdzqtpHJpqZvFLBMl5NC639XmWcqZmnnoLLAP7uyXa4z6tCRwF4U4869FEvden99dZrMg=
+  app: dms-api
+  on:
+    repo: andela-blawrence/dms-api
+    branch: dev
+after_deploy:
+  - "heroku ps:scale web=1 --app dms-api"
