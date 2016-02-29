@@ -35,8 +35,8 @@ module.exports = (() => {
           .len(1, 50)
           .withMessage('firstname should be between 6 to 50 characters');
         req.checkBody('role')
-          .len(3, 30)
-          .withMessage('role should be between 3 to 30 characters');
+          .len(1, 30)
+          .withMessage('role should be between 1 to 30 characters');
       }
 
       req.checkBody('email', 'Invalid Email. Please provide a valid email')

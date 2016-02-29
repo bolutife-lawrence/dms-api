@@ -76,7 +76,7 @@ var scanRoutes = (req, res, next) => {
     });
     break;
 
-  case /\/users\/[a-z0-9]{24}\/documents/i.test(req.url):
+  case /(\/users\/[a-z0-9]{24}\/documents)/i.test(req.url):
     auth.isAuthenticated(req, res, () => {
       if (req.method === 'GET') {
         if (req.url.indexOf(req.user._id) === -1) {
@@ -135,7 +135,7 @@ var scanRoutes = (req, res, next) => {
     });
     break;
 
-  case /\/roles\/[a-z0-9]{24}$/i.test(req.url):
+  case /^\/roles\/[a-z0-9]{24}$/i.test(req.url):
     auth.isAuthenticated(req, res, () => {
       switch (req.method) {
       case 'DELETE':
@@ -152,7 +152,7 @@ var scanRoutes = (req, res, next) => {
     });
     break;
 
-  case /^\/roles\/[a-z0-9]{24}\/documents$/i.test(req.url):
+  case /(\/roles\/[a-z0-9]{24}\/documents)/i.test(req.url):
     auth.isAuthenticated(req, res, () => {
       if (req.method === 'GET') {
         var userRole = req.user.role[0]._id;
