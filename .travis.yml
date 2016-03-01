@@ -27,6 +27,6 @@ deploy:
   app: dms-api
   on:
     repo: andela-blawrence/dms-api
-    branch: dev
+    branch: master
 after_deploy:
   - "heroku ps:scale web=1 --app dms-api"
