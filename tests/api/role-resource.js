@@ -263,6 +263,18 @@ var roleResource = (api, expect, fixtures, invalidId) => {
             done();
           });
       });
+
+      it('should get all users belonging to a role', (done) => {
+        api
+          .get('/api/v0.1/users/featured?roles=' + roleId)
+          .set('x-access-token', superAdminToken)
+          .expect('Content-Type', /json/)
+          .expect(200)
+          .end((err) => {
+            expect(err).to.be(null);
+            done();
+          });
+      });
     });
   });
 };
